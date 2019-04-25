@@ -127,7 +127,7 @@ $(document).ready(function() {                  // Wait on document to load
      * UI Event Handlers
     ***************************************************************************/
     // Search for an artist
-    function searchMusic(event) {
+    function searchArtist(event) {
         event.preventDefault();                 // Prevent Submit propagation
 
         let inputVal = $("ARTIST_INPUT").val().trim(); // Save entered data
