@@ -19,12 +19,12 @@ $(document).ready(function() {                  // Wait on document to load
     // TODO - Replace the Firebase Configuration w/ one for Project-1
     // ************************************************************************
     const config = {                            // Firebase configuration
-        apiKey: "AIzaSyDzpZckBMQaqDZudVSjFqYsf4DtXcM5V2I",
-        authDomain: "train-scheduler-83ae9.firebaseapp.com",
-        databaseURL: "https://train-scheduler-83ae9.firebaseio.com",
-        projectId: "train-scheduler-83ae9",
-        storageBucket: "train-scheduler-83ae9.appspot.com",
-        messagingSenderId: "999079684652"
+        apiKey: "AIzaSyAmDwJPp9snbM6xBXdXBbTNUVoJNAP3bsI",
+        authDomain: "local-muse.firebaseapp.com",
+        databaseURL: "https://local-muse.firebaseio.com",
+        projectId: "local-muse",
+        storageBucket: "local-muse.appspot.com",
+        messagingSenderId: "252827947960"
     };
     let databaseRef = null;                     // Ref to Firebase database
 
