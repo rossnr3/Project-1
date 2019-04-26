@@ -26,7 +26,7 @@ So anyone opening the web page can use location below to check out the events.
 
 ### Header Content (See Stubhub as a good example)
 
-####Logo
+#### Logo
 
 Logo - to be decided. It's just decoration. Should house a link to the home
 page from other pages.
