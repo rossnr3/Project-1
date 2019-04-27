@@ -17,6 +17,7 @@ container {
 
 .card {
     float: left;
+    box-shadow: 4px 4px 5px gray;
 }
 
 .media-object-section {
