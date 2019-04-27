@@ -2,8 +2,24 @@
 * Stylesheet for Project-1 Assignment - Local Muse
 *******************************************************************************/
 
-/*  Page default settings */
-*   {
-    font-size: 18px;
-    line-height: 1.5;
+container {
+    padding-right: 50px;
+}
+
+.top-bar {
+    position: fixed;
+    width: 100%;
+}
+
+.jumbotron {
+    text-align: center;
+}
+
+.card {
+    float: left;
+    box-shadow: 4px 4px 5px gray;
+}
+
+.media-object-section {
+    padding-left: 30px;
 }
