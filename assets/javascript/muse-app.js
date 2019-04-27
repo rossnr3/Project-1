@@ -4,20 +4,18 @@
 
 $(document).ready(function() {                  // Wait on document to load
 
-    /***************************************************************************
-     * Application Variables
-    ***************************************************************************/
-    // HTML Element IDs
-    // If element ids change, change the const variable to update the code. No
-    // literal values are contained in the code.
-    const ARTIST_INPUT = "#artist-input";
-    const SEARCH = "#search";                 
+    // /***************************************************************************
+    //  * Application Global Variables
+    // ***************************************************************************/
+    
+    // HTML Variables
+    const LOCATION_INPUT = "#location-input";   // Location input field
+    const EVENT_BTN = "#event-button";          // Event search button clicked    
+    const EVENT_TABLE = "tbody";                // Event display table             
 
-    const childAddEvent = "child_added";        // Firebase events
+    // Firebase Variables
+    const CHILD_ADDED = "child_added";          // Firebase events
 
-    // ************************************************************************
-    // TODO - Replace the Firebase Configuration w/ one for Project-1
-    // ************************************************************************
     const config = {                            // Firebase configuration
         apiKey: "AIzaSyAmDwJPp9snbM6xBXdXBbTNUVoJNAP3bsI",
         authDomain: "local-muse.firebaseapp.com",
@@ -27,6 +25,15 @@ $(document).ready(function() {                  // Wait on document to load
         messagingSenderId: "252827947960"
     };
     let databaseRef = null;                     // Ref to Firebase database
+
+    // SeatGeek Variables
+    const DEFAULT_LOCATION = "Denver";          // SeatGeek location default
+    const DEFAULT_PRICE = 45;                   // SeatGeek default price
+    let location = DEFAULT_LOCATION;            // SeatGeek search location
+    let queryURL = "https://api.seatgeek.com/2/events?venue.city=" // URL
+                   + location
+                   + "&type=concert"
+                   + "&client_id=MTYzODc2MTJ8MTU1NjI0NTEzOC44NA";
 
     class User {                                // Subscribed user object
         constructor(name, email, password, card) {
@@ -40,60 +47,35 @@ $(document).ready(function() {                  // Wait on document to load
         }
     }
 
-    class Reservation {                         // User reservation
-        constructor(eventID, numTickets, ticketPrice) {
-            this.event = eventID;               // Event
-            this.tickets = numTickets;          // Tickets reserved
-            this.price = ticketPrice;           // Ticket price
+    class Venue {
+        constructor(id, location, theater) {
+            this.venueID = id;
+            this.location = location;
+            this.theater = theater;
+        }
+    }
+
+    class Artist {                              // Artist object
+        constructor(id, name, image) {
+            this.artistID = id;                 // unique artist key
+            this.name = name;                   // name of artist or group
+            this.image = image;                 // URL for image
         }
     }
 
     const events = [];                          // Array of events
     class Event {                               // Event object
-        constructor(artist, date, location, venue, tickets, price) {
-            this.eventID = "";                  // unique event key
-                                                // artist+location+venue+date??
-            this.artist = artist;               // artist/band
-            this.eventDate = date;              // date of event
-            this.location = location;           // city, state of event
+        constructor(id, title, localDate, venue, price, artistArr=[]) {
+            this.eventID = id;                  // unique event key                                                
+            this.title = title;                 // concert title
+            this.artists = artistArr;           // Performers
+            this.eventDate = localDate;              // date of event
             this.venue = venue;                 // location
-            this.ticketsLeft = tickets;         // remaining tickets
-            this.price = price;                 // ticket price
-        }
-    }
-
-    const artists = [];                         // Array of artists
-    class Artist {                              // Artist object
-        constructor(name, website) {
-            this.artistID = "";                 // unique artist key
-                                                // name+?
-            this.name = name;                   // name of artist or group
-            this.website = website;             // URL for website
-            this.currentTrack = -1;             // Index of current track
-            this.albums = [];                   // Albums
-            this.tracks = [];                   // Top tracks
-            this.summary = "";                  // Summary information
-        }
-    }
-
-    class Album {
-        constructor(title, date, image, tracks) {
-            this.albumID = "";                  // unique album key
-            this.title = title;                 // Album title
-            this.date = date;                   // Date released
-            this.coverImage = image;            // URL for cover image
-            this.tracks = [];                   // Tracks
-            tracks.forEach(function(track) {
-                tracks.push(track);
-            });
-        }
-    }
-
-    class Track {
-        constructor(title, date, source) {
-            this.trackID = "";                  // unique track key
-            this.date = date;                   // date released
-            this.source = source;               // Audio URL
+            if (price) {                        // Ticket price
+                this.price = price;
+            } else {
+                this.price = DEFAULT_PRICE;
+            }
         }
     }
 
@@ -104,9 +86,58 @@ $(document).ready(function() {                  // Wait on document to load
     ***************************************************************************/
 
     /***************************************************************************
-     * Music Search Functions
+     * Event Functions
     ***************************************************************************/
 
+    // Append event data to the table row element
+    function appendData(tableRow, tableData) {
+        let td = $("<td>");
+        td.text(tableData);
+        tableRow.append(td);
+    }
+    // Render the Event objects as HTML table rows
+    function renderEvents() {
+        $(EVENT_TABLE).empty();                 // Clear table entries
+        let tbody = $(EVENT_TABLE);
+        events.forEach(function(eventObj) {     // Loop thru event array
+            let tr = $("<tr>");
+            appendData(tr, eventObj.title);
+            appendData(tr, eventObj.eventDate);
+            appendData(tr, eventObj.venue.theater + "; " 
+                + eventObj.venue.location);
+            let eventArtists = "";
+            eventObj.artists.forEach(function(artist) {
+                eventArtists += artist.name + "; ";
+            });
+            if (eventArtists.length > 2) {
+                eventArtists = eventArtists.substr(0, eventArtists.length - 2);
+            }
+            appendData(tr, eventArtists);
+            tbody.append(tr);            
+        });
+    }
+
+    // Extract the SeatGeek data and create Event objects, adding them to
+    // an array.
+    function getEvents(eventArr=[]) {
+        events.length = 0;
+        for (let i=0; i < eventArr.length; i++) {
+            if (eventArr[i].type === "concert") {
+                let venueObj = new Venue(eventArr[i].venue.id, 
+                    eventArr[i].venue.display_location, eventArr[i].venue.name);
+                let artists = [];
+                eventArr[i].performers.forEach(function(performerObj) {
+                    let artistObj = new Artist(performerObj.id, 
+                        performerObj.name, performerObj.image);
+                    artists.push(artistObj);
+                });
+                let concert = new Event(eventArr[i].id, eventArr[i].title,
+                    eventArr[i].datetime_local, venueObj, 
+                    eventArr[i].stats.average_price, artists);
+                events.push(concert);
+            }
+        }
+    }
 
     /***************************************************************************
      * Timing/Date Functions
@@ -122,18 +153,34 @@ $(document).ready(function() {                  // Wait on document to load
 
     }
 
-
     /***************************************************************************
      * UI Event Handlers
     ***************************************************************************/
-    // Search for an artist
-    function searchArtist(event) {
+    // Search for events
+    function searchEvents(event) {
         event.preventDefault();                 // Prevent Submit propagation
 
-        let inputVal = $("ARTIST_INPUT").val().trim(); // Save entered data
-        if (inputVal.length === 0) {
-            //TODO handle no data entered error, set focus & exit
+        let inputVal = $(LOCATION_INPUT).val().trim(); // Save entered data
+        if (inputVal.length === 0) {            // If no location entered, use
+            location = DEFAULT_LOCATION;        // ...default location
+        } else {
+            location = inputVal;
         }
+
+        let xhr = new XMLHttpRequest();         // Set up HTTP request
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                let jsonObj = JSON.parse(xhr.response);
+                getEvents(jsonObj.events);
+                renderEvents();
+            } else {
+                console.log("Request Failed!");
+            }
+            // Code here runs either way
+        };
+
+        xhr.open("GET", queryURL);
+        xhr.send();
 
         // TODO search for artist
         // TODO Not Found
@@ -155,8 +202,8 @@ $(document).ready(function() {                  // Wait on document to load
     firebase.initializeApp(config);             // Initialize firebase &
     databaseRef = firebase.database();          // ...save ref to database
 
-    databaseRef.ref().on(childAddEvent, childAdded); // child added event handler 
+    databaseRef.ref().on(CHILD_ADDED, childAdded); // child added event handler 
 
-    $(SEARCH).on("click", searchArtist);      // submit button event handler       
+    $(EVENT_BTN).on("click", searchEvents);     // submit button event handler       
 
 });
