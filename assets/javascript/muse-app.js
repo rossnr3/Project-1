@@ -152,15 +152,19 @@ $(document).ready(function() {                  // Wait on document to load
             url: queryArtistURL,
             method: "POST"
             }).then(function(response) {
-                console.log("Query2" + queryArtistURL);  //console logs to verify calls and return
+                console.log("your query string: " + queryArtistURL);  //console logs to verify calls and return
                 console.log(response);
-                console.log(response.artist.name); 
- 
-                if (response.error != 6) {
-                $("#band-name").text(response.artist.name);  // from the lastfm response 
-                $("#band-image").attr("src", response.artist.image[2]);
-                $("#band-summary").text("src", response.artist.bio.summary);
+                console.log(response.artist.name);
+                console.log(response.artist.url);
+                console.log(response.artist.image[2]["#text"]);
+                console.log(response.artist.bio.summary);
 
+                if (response.error!=6) {
+                $('#band-name').css('textTransform', 'capitalize');
+                $("#band-name").text(response.artist.name);  
+                $("#band-url").attr("href", response.artist.url);  // ***requires <p><a href=" " id="band-url">Band URL</a></p>
+                $("#band-image").attr("src", response.artist.image[2]["#text"]);  // ***requires <img id="band-image"></img>
+                $("#band-summary").html(response.artist.bio.summary);  
                 } else {
                     console.log("The artist could not be found.");
                     $("#band-name").text("The artist could not be found.");
