@@ -36,7 +36,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-  <script src="assets/javascript/muse-app.js" defer></script>
+  <script src="assets/javascript/muse-app.js"></script>
 </head>
 
 <body>
@@ -44,10 +44,10 @@
   <div class="top-bar" id="example-menu">
     <div class="top-bar-left">
       <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text">Local Muze</li>
-        <li><a href="#">Concerts</a></li>        
-        <li><a href="#">Sports</a></li>
-        <li><a href="#">Theater</a></li>
+        <li class="menu-text"><a href="assets/pagelinks/index.html">Local Muze</a></li>
+        <li><a href="assets/pagelinks/concert.html">Concerts</a></li>
+        <li><a href="assets/pagelinks/sports.html">Sports</a></li>
+        <li><a href="assets/pagelinks/theater.html">Theater</a></li>
       </ul>
     </div>
     <div class="top-bar-right">
@@ -58,139 +58,140 @@
     </div>
   </div>
 
-<div class="container">
+
   <!--Main container with Highlight on Todays/Big events-->
   <div class="jumbotron">
-    <h1 class="display-4">Happening now/Coming soon!</h1>
+    <h1 class="display-4">Happening Now/Coming Soon!</h1>
     <p class="lead"></p>
-    <hr class="my-4">
     <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
   </div>
 
-  <!--Map with your location-->
-  <div class="card" style="width: 600px; height: 500px;">
-    <img src="assets/img/generic/rectangle-1.jpg">
-    <div class="card-section">
-      <h4>Map with your location</h4>
-    </div>
-  </div>
+  <div class="container">
 
-  <!--Band/Event Name-->
-  <div class="media-object">
-    <div class="media-object-section">
-      <div class="thumbnail">
-        <img src= "assets/img/media-object/avatar-1.jpg">
+    <!--Map with your location-->
+    <div class="card" style="width: 600px; height: 500px;">
+      <img src="assets/img/generic/rectangle-1.jpg">
+      <div class="card-section">
+        <h4>Map with your location</h4>
       </div>
     </div>
-    <div class="media-object-section">
-      <h4>Band/Event</h4>
-      <p>Event Category</p>
-      <!-- Band/Event details and Links -->
-      <div class="media-object">
-        <div class="media-object-section">
-          <div class="thumbnail">
-            <img src= "assets/img/media-object/avatar-2.jpg">
+
+    <!--Band/Event Name-->
+    <div class="media-object">
+      <div class="media-object-section">
+        <div class="thumbnail">
+          <img src="assets/img/media-object/avatar-1.jpg">
+        </div>
+      </div>
+      <div class="media-object-section">
+        <h4>Band/Event</h4>
+        <p>Event Category</p>
+        <!-- Band/Event details and Links -->
+        <div class="media-object">
+          <div class="media-object-section">
+            <div class="thumbnail">
+              <img src="assets/img/media-object/avatar-2.jpg">
+            </div>
+          </div>
+          <div class="media-object-section">
+            <h4>Dates, time, location, etc.</h4>
+            <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
           </div>
         </div>
-        <div class="media-object-section">
-          <h4>Dates, time, location, etc.</h4>
-          <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
+        <!-- And ends here -->
+      </div>
+    </div>
+
+    <!--Band/Event Name-->
+    <div class="media-object">
+      <div class="media-object-section">
+        <div class="thumbnail">
+          <img src="assets/img/media-object/avatar-1.jpg">
         </div>
       </div>
-      <!-- And ends here -->
-    </div>
-  </div>
-
-  <!--Band/Event Name-->
-  <div class="media-object">
-    <div class="media-object-section">
-      <div class="thumbnail">
-        <img src= "assets/img/media-object/avatar-1.jpg">
-      </div>
-    </div>
-    <div class="media-object-section">
-      <h4>Band/Event</h4>
-      <p>Event Category</p>
-      <!-- Band/Event details and Links -->
-      <div class="media-object">
-        <div class="media-object-section">
-          <div class="thumbnail">
-            <img src= "assets/img/media-object/avatar-2.jpg">
+      <div class="media-object-section">
+        <h4>Band/Event</h4>
+        <p>Event Category</p>
+        <!-- Band/Event details and Links -->
+        <div class="media-object">
+          <div class="media-object-section">
+            <div class="thumbnail">
+              <img src="assets/img/media-object/avatar-2.jpg">
+            </div>
+          </div>
+          <div class="media-object-section">
+            <h4>Dates, time, location, etc.</h4>
+            <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
           </div>
         </div>
-        <div class="media-object-section">
-          <h4>Dates, time, location, etc.</h4>
-          <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
+        <!-- And ends here -->
+      </div>
+    </div>
+
+    <!--Band/Event Name-->
+    <div class="media-object">
+      <div class="media-object-section">
+        <div class="thumbnail">
+          <img src="assets/img/media-object/avatar-1.jpg">
         </div>
       </div>
-      <!-- And ends here -->
-    </div>
-  </div>
-
-  <!--Band/Event Name-->
-  <div class="media-object">
-    <div class="media-object-section">
-      <div class="thumbnail">
-        <img src= "assets/img/media-object/avatar-1.jpg">
-      </div>
-    </div>
-    <div class="media-object-section">
-      <h4>Band/Event</h4>
-      <p>Event Category</p>
-      <!-- Band/Event details and Links -->
-      <div class="media-object">
-        <div class="media-object-section">
-          <div class="thumbnail">
-            <img src= "assets/img/media-object/avatar-2.jpg">
+      <div class="media-object-section">
+        <h4>Band/Event</h4>
+        <p>Event Category</p>
+        <!-- Band/Event details and Links -->
+        <div class="media-object">
+          <div class="media-object-section">
+            <div class="thumbnail">
+              <img src="assets/img/media-object/avatar-2.jpg">
+            </div>
+          </div>
+          <div class="media-object-section">
+            <h4>Dates, time, location, etc.</h4>
+            <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
           </div>
         </div>
-        <div class="media-object-section">
-          <h4>Dates, time, location, etc.</h4>
-          <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
-        </div>
+        <!-- And ends here -->
       </div>
-      <!-- And ends here -->
     </div>
+
+    <br>
+    <br>
+    <br>
+
+    <!-- Top sellers -->
+    <h1>Top Sellers</h1>
+    <table class="hover">
+      <thead>
+        <tr>
+          <th width="200">Band/Event Name</th>
+          <th>Dates and times</th>
+          <th width="150">Venue</th>
+          <th width="150">More information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Content Goes Here</td>
+          <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+          <td>Content Goes Here</td>
+          <td>Content Goes Here</td>
+        </tr>
+        <tr>
+          <td>Content Goes Here</td>
+          <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
+          <td>Content Goes Here</td>
+          <td>Content Goes Here</td>
+        </tr>
+        <tr>
+          <td>Content Goes Here</td>
+          <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
+          <td>Content Goes Here</td>
+          <td>Content Goes Here</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <br>
-  <br>
-  <br>
-
-  <!-- Top sellers -->
-  <h1>Top Sellers</h1>
-  <table class="hover">
-    <thead>
-      <tr>
-        <th width="200">Band/Event Name</th>
-        <th>Dates and times</th>
-        <th width="150">Venue</th>
-        <th width="150">More information</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Content Goes Here</td>
-        <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
-        <td>Content Goes Here</td>
-        <td>Content Goes Here</td>
-      </tr>
-      <tr>
-        <td>Content Goes Here</td>
-        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-        <td>Content Goes Here</td>
-        <td>Content Goes Here</td>
-      </tr>
-      <tr>
-        <td>Content Goes Here</td>
-        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-        <td>Content Goes Here</td>
-        <td>Content Goes Here</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
+  </div>
 
 
 </body>
