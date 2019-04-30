@@ -139,6 +139,40 @@ $(document).ready(function() {                  // Wait on document to load
         }
     }
 
+    // Get Artist from selected row and query API for artist details - jimmyg
+    $(document).on("click", ".event-row", function() {  //click on row;  ***need rows to have a class; can be defined when row is created
+        let searchArtist = $(this).attr(artist.name);
+        let queryArtistURL = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist="  // query URL for last.fm
+                            + searchArtist 
+                            + "&api_key=568f44e6089a6a0cf9def6d576559c73&format=json";
+        
+        $("#displayed-artist").remove(); // removes any previous artist displayed  ***need id defined for artist display div
+
+        $.ajax({
+            url: queryArtistURL,
+            method: "POST"
+            }).then(function(response) {
+                console.log("your query string: " + queryArtistURL);  //console logs to verify calls and return
+                console.log(response);
+                console.log(response.artist.name);
+                console.log(response.artist.url);
+                console.log(response.artist.image[2]["#text"]);
+                console.log(response.artist.bio.summary);
+
+                if (response.error!=6) {
+                $('#band-name').css('textTransform', 'capitalize');
+                $("#band-name").text(response.artist.name);  
+                $("#band-url").attr("href", response.artist.url);  // ***requires <p><a href=" " id="band-url">Band URL</a></p>
+                $("#band-image").attr("src", response.artist.image[2]["#text"]);  // ***requires <img id="band-image"></img>
+                $("#band-summary").html(response.artist.bio.summary);  
+                } else {
+                    console.log("The artist could not be found.");
+                    $("#band-name").text("The artist could not be found.");
+                }
+            });
+    });
+
+
     /***************************************************************************
      * Timing/Date Functions
     ***************************************************************************/
