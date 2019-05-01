@@ -1,35 +1,72 @@
-/*******************************************************************************
-* Stylesheet for Project-1 Assignment - Local Muse
-*******************************************************************************/
-
-container {
-    padding-right: 50px;
+body {
+    background-image: url(https://images.unsplash.com/photo-1518173835740-f5d14111d76a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=877&q=80);
+    background-size: cover;
 }
 
-.top-bar {
-    position: fixed;
-    width: 100%;
+.movieButtons {
+    color: white;
+    margin: 10px;
+    font-family: sans-serif;
+    background-color: rgb(105, 172, 5);
+    padding: 15px;
 }
 
-.jumbotron {
-    width: 100%;
+#movies-form{
     text-align: center;
-    background-image: linear-gradient(to bottom right, #aba9c4,#2d2a3b);
-    
+    position: static;
+
 }
 
-.display-4 {
-    padding-top: 30px;
-    justify-content: center;
-    color: aliceblue;
-}
-
-.card {
+p {
+    font-family: sans-serif;
     float: left;
-    box-shadow: 4px 4px 5px gray;
-    z-index: -1;
+    color: antiquewhite;
+
 }
 
-.media-object-section {
-    padding-left: 30px;
+.Gifs {
+    margin: 15px;
+    float: left;
 }
+
+#movies-view {
+    margin: 20px;
+    font-family: fantasy;
+}
+
+h1 {
+    text-align: center;
+    font-family: fantasy;
+        
+}
+
+#movie-buttons {
+    left: 20px;
+
+}
+
+#add-movie {
+    font-family: sans-serif;
+}
+
+label {
+    font-size: 3em;
+    color: rgb(105, 172, 5);
+    font-family: fantasy;
+}
+
+@media only screen and (max-width: 1180px) {
+    /* For mobile phones: */
+    body {
+        background: black;   
+
+    }
+  }
+
+  @media only screen and (max-width: 1180px) {
+    /* For mobile phones: */
+    p {
+        color: black;   
+
+    }
+  }

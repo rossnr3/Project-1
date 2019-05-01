@@ -1,200 +1,33 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html>
+    <head>
+        <meta charset="utf-8"> 
+        <title>Giftastic</title>
+        <link href="https://fonts.googleapis.com/css?family=Gilda+Display" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        
+        <h1 style="color: orangered; font-size: 5em;font-family: fantasy;">Movie Gifs</h1>
 
-<!-----     Project-1 Assignment - Local Muse     ----->
+        <div id='movie-buttons'></div>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Local Muse</title>
+        <form id='movies-form'>
+            <label for='movies-input'>Add your favorite movie and lets see the GIFs!!!!!</label><br>
 
-  <!-----     Reset css     ----->
-  <link rel="stylesheet" href="assets/css/reset.css">
+            <input type='text'id='movies-input' value=''>
 
-  <!----- Link to Compressed Foundation CDN ------->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.3/dist/css/foundation.min.css"
-    integrity="sha256-xpOKVlYXzQ3P03j397+jWFZLMBXLES3IiryeClgU5og= sha384-gP4DhqyoT9b1vaikoHi9XQ8If7UNLO73JFOOlQV1RATrA7D0O7TjJZifac6NwPps sha512-AKwIib1E+xDeXe0tCgbc9uSvPwVYl6Awj7xl0FoaPFostZHOuDQ1abnDNCYtxL/HWEnVOMrFyf91TDgLPi9pNg=="
-    crossorigin="anonymous">
-  <!-----     Links to Bootstrap JS, Popper.js and jQuery     ----->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
+            <input id="add-movie" type='submit'value='Add Movie'>
+        
+        </form>
 
-  <!-----     Link to external stylesheet     ----->
-  <link rel="stylesheet" href="assets/css/style.css">
+        <div id='movies-view'></div>
 
-  <!-----     Links to Ajax, Firebase, momentjs & application script     ----->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
-  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-  <script src="assets/javascript/muse-app.js" defer></script>
-  <script src="assets/javascript/location-api.js" defer></script>
-</head>
-
-<body>
-  <!--Navigation Bar-->
-  <div class="top-bar" id="example-menu">
-    <div class="top-bar-left">
-      <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text"><a href="assets/pagelinks/index.html">Local Muze</a></li>
-        <li><a href="assets/pagelinks/concert.html">Concerts</a></li>
-        <li><a href="assets/pagelinks/sports.html">Sports</a></li>
-        <li><a href="assets/pagelinks/theater.html">Theater</a></li>
-      </ul>
-    </div>
-    <div class="top-bar-right">
-      <ul class="menu">
-        <li><input type="search" placeholder="Search an Event"></li>
-        <li><button type="button" class="button">Search</button></li>
-      </ul>
-    </div>
-  </div>
-
-
-  <!--Main container with Highlight on Todays/Big events-->
-  <div class="jumbotron">
-    <h1 class="display-4">Happening Now/Coming Soon!</h1>
-    <p class="lead"></p>
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-  </div>
-
-  <div class="container">
-
-    <!--Map with your location-->
-    <div class="card" style="width: 600px; height: 500px;">
-      <img src="assets/img/generic/rectangle-1.jpg">
-      <div class="card-section">
-        <h4>Map with your location</h4>
-      </div>
-    </div>
-
-    <!--Band/Event Name-->
-    <div class="media-object">
-      <div class="media-object-section">
-        <div class="thumbnail">
-          <img src="assets/img/media-object/avatar-1.jpg">
-        </div>
-      </div>
-      <div class="media-object-section">
-        <h4>Band/Event</h4>
-        <p>Event Category</p>
-        <!-- Band/Event details and Links -->
-        <div class="media-object">
-          <div class="media-object-section">
-            <div class="thumbnail">
-              <img src="assets/img/media-object/avatar-2.jpg">
-            </div>
-          </div>
-          <div class="media-object-section">
-            <h4>Dates, time, location, etc.</h4>
-            <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
-          </div>
-        </div>
-        <!-- And ends here -->
-      </div>
-    </div>
-
-    <!--Band/Event Name-->
-    <div class="media-object">
-      <div class="media-object-section">
-        <div class="thumbnail">
-          <img src="assets/img/media-object/avatar-1.jpg">
-        </div>
-      </div>
-      <div class="media-object-section">
-        <h4>Band/Event</h4>
-        <p>Event Category</p>
-        <!-- Band/Event details and Links -->
-        <div class="media-object">
-          <div class="media-object-section">
-            <div class="thumbnail">
-              <img src="assets/img/media-object/avatar-2.jpg">
-            </div>
-          </div>
-          <div class="media-object-section">
-            <h4>Dates, time, location, etc.</h4>
-            <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
-          </div>
-        </div>
-        <!-- And ends here -->
-      </div>
-    </div>
-
-    <!--Band/Event Name-->
-    <div class="media-object">
-      <div class="media-object-section">
-        <div class="thumbnail">
-          <img src="assets/img/media-object/avatar-1.jpg">
-        </div>
-      </div>
-      <div class="media-object-section">
-        <h4>Band/Event</h4>
-        <p>Event Category</p>
-        <!-- Band/Event details and Links -->
-        <div class="media-object">
-          <div class="media-object-section">
-            <div class="thumbnail">
-              <img src="assets/img/media-object/avatar-2.jpg">
-            </div>
-          </div>
-          <div class="media-object-section">
-            <h4>Dates, time, location, etc.</h4>
-            <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
-          </div>
-        </div>
-        <!-- And ends here -->
-      </div>
-    </div>
-
-    <br>
-    <br>
-    <br>
-
-    <!-- Top sellers -->
-    <h1>Top Sellers</h1>
-    <table class="hover">
-      <thead>
-        <tr>
-          <th width="200">Band/Event Name</th>
-          <th>Dates and times</th>
-          <th width="150">Venue</th>
-          <th width="150">More information</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Content Goes Here</td>
-          <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
-          <td>Content Goes Here</td>
-          <td>Content Goes Here</td>
-        </tr>
-        <tr>
-          <td>Content Goes Here</td>
-          <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-          <td>Content Goes Here</td>
-          <td>Content Goes Here</td>
-        </tr>
-        <tr>
-          <td>Content Goes Here</td>
-          <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-          <td>Content Goes Here</td>
-          <td>Content Goes Here</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  </div>
-
-
-</body>
-
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <script type="text/javascript" src="assets/game.js"></script>
+    </body>
 </html>
