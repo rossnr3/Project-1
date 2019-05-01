@@ -12,14 +12,22 @@ container {
 }
 
 .jumbotron {
+    width: 100%;
     text-align: center;
+    background-image: linear-gradient(to bottom right, #aba9c4,#2d2a3b);
+    
 }
 
-.card {
-    float: left;
-    box-shadow: 4px 4px 5px gray;
+.display-4 {
+    padding-top: 30px;
+    justify-content: center;
+    color: aliceblue;
 }
 
 .media-object-section {
     padding-left: 30px;
+}
+
+#moreButton {
+    float: right;
 }

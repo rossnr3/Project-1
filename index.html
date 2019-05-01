@@ -19,9 +19,6 @@
   <!-----     Links to Bootstrap JS, Popper.js and jQuery     ----->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
@@ -36,8 +33,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-  <script src="assets/javascript/muse-app.js" defer></script>
-  <script src="assets/javascript/location-api.js" defer></script>
+  <script src="assets/javascript/muse-app.js"></script>
+  <script src="assets/javascript/location-api.js"></script>
 </head>
 
 <body>
@@ -45,10 +42,10 @@
   <div class="top-bar" id="example-menu">
     <div class="top-bar-left">
       <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text">Local Muze</li>
-        <li><a href="#">Concerts</a></li>        
-        <li><a href="#">Sports</a></li>
-        <li><a href="#">Theater</a></li>
+        <li class="menu-text"><a href="index.html">Local Muse</a></li>
+        <li><a href="assets/pagelinks/concert.html">Concerts</a></li>
+        <li><a href="assets/pagelinks/sports.html">Sports</a></li>
+        <li><a href="assets/pagelinks/theater.html">Theater</a></li>
       </ul>
     </div>
     <div class="top-bar-right">
@@ -59,139 +56,62 @@
     </div>
   </div>
 
-<div class="container">
+
   <!--Main container with Highlight on Todays/Big events-->
   <div class="jumbotron">
-    <h1 class="display-4">Happening now/Coming soon!</h1>
+    <h1 class="display-4">Happening Now/Coming Soon!</h1>
     <p class="lead"></p>
-    <hr class="my-4">
     <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
   </div>
 
-  <!--Map with your location-->
-  <div class="card" style="width: 600px; height: 500px;">
-    <img src="assets/img/generic/rectangle-1.jpg">
-    <div class="card-section">
-      <h4>Map with your location</h4>
-    </div>
-  </div>
+  <div class="container">
 
-  <!--Band/Event Name-->
-  <div class="media-object">
-    <div class="media-object-section">
-      <div class="thumbnail">
-        <img src= "assets/img/media-object/avatar-1.jpg">
-      </div>
-    </div>
-    <div class="media-object-section">
-      <h4>Band/Event</h4>
-      <p>Event Category</p>
-      <!-- Band/Event details and Links -->
-      <div class="media-object">
-        <div class="media-object-section">
-          <div class="thumbnail">
-            <img src= "assets/img/media-object/avatar-2.jpg">
+    <!-- Top sellers -->
+    <h1>Events Table</h1>
+    <table class="hover">
+      <thead>
+        <tr>
+          <th width="200">Band/Event Name</th>
+          <th>Dates and times</th>
+          <th width="150">Venue</th>
+          <th width="150">More information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="band-name"></td>
+          <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+          <td>Content Goes Here</td>
+          <td>Content Goes Here</td>
+        </tr>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+      More Inforamtion
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Artist/Band Name</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Bio!
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Love it!</button>
+            <button type="button" class="btn btn-primary">Hate it!</button>
           </div>
         </div>
-        <div class="media-object-section">
-          <h4>Dates, time, location, etc.</h4>
-          <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
-        </div>
       </div>
-      <!-- And ends here -->
     </div>
   </div>
-
-  <!--Band/Event Name-->
-  <div class="media-object">
-    <div class="media-object-section">
-      <div class="thumbnail">
-        <img src= "assets/img/media-object/avatar-1.jpg">
-      </div>
-    </div>
-    <div class="media-object-section">
-      <h4>Band/Event</h4>
-      <p>Event Category</p>
-      <!-- Band/Event details and Links -->
-      <div class="media-object">
-        <div class="media-object-section">
-          <div class="thumbnail">
-            <img src= "assets/img/media-object/avatar-2.jpg">
-          </div>
-        </div>
-        <div class="media-object-section">
-          <h4>Dates, time, location, etc.</h4>
-          <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
-        </div>
-      </div>
-      <!-- And ends here -->
-    </div>
-  </div>
-
-  <!--Band/Event Name-->
-  <div class="media-object">
-    <div class="media-object-section">
-      <div class="thumbnail">
-        <img src= "assets/img/media-object/avatar-1.jpg">
-      </div>
-    </div>
-    <div class="media-object-section">
-      <h4>Band/Event</h4>
-      <p>Event Category</p>
-      <!-- Band/Event details and Links -->
-      <div class="media-object">
-        <div class="media-object-section">
-          <div class="thumbnail">
-            <img src= "assets/img/media-object/avatar-2.jpg">
-          </div>
-        </div>
-        <div class="media-object-section">
-          <h4>Dates, time, location, etc.</h4>
-          <p>Links to YouTube, Spotify, SeatGeek, etc.</p>
-        </div>
-      </div>
-      <!-- And ends here -->
-    </div>
-  </div>
-
-  <br>
-  <br>
-  <br>
-
-  <!-- Top sellers -->
-  <h1>Top Sellers</h1>
-  <table class="hover">
-    <thead>
-      <tr>
-        <th width="200">Band/Event Name</th>
-        <th>Dates and times</th>
-        <th width="150">Venue</th>
-        <th width="150">More information</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Content Goes Here</td>
-        <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
-        <td>Content Goes Here</td>
-        <td>Content Goes Here</td>
-      </tr>
-      <tr>
-        <td>Content Goes Here</td>
-        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-        <td>Content Goes Here</td>
-        <td>Content Goes Here</td>
-      </tr>
-      <tr>
-        <td>Content Goes Here</td>
-        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-        <td>Content Goes Here</td>
-        <td>Content Goes Here</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
 
 
 </body>
