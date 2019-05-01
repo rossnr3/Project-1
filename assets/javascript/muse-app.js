@@ -372,7 +372,7 @@ $(document).ready(function() {                  // Wait on document to load
     };
 
     firebase.initializeApp(config);             // Initialize firebase &
-    databaseRef = firebase.database();          // ...save ref to database
+    database = firebase.database();          // ...save ref to database
 
     let loveCounter = 0;
     let hateCounter = 0;
