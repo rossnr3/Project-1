@@ -378,38 +378,32 @@ $(document).ready(function() {                  // Wait on document to load
     let hateCounter = 0;
 
     
+    database.ref().on("value", function(snapshot) {
+        console.log(snapshot.val().loveCount);
+        console.log(snapshot.val().hateCount);   
+        // Update the clickCounter variable with data from the database.
+        hateCounter = snapshot.val().hateCount.hateCount;
+        loveCounter = snapshot.val().loveCount.loveCount;
+        // Then we change the html associated with the number.
+        $("#hate-button").text(snapshot.val().hateCount.hateCount);
+        $("#love-button").text(snapshot.val().loveCount.loveCount);
+    });
 
-        $("#love-button").on("click", function(event) {
-            event.preventDefault();
-            loveCounter++;
-            database.ref().set({
-                loveCount: loveCounter
-            });
-            database.ref().on("value", function(snapshot) {
-                console.log(snapshot.val());   
-                // Update the clickCounter variable with data from the database.
-                loveCounter = snapshot.val().loveCount;
-                // Then we change the html associated with the number.
-                $("#love-button").text(snapshot.val().loveCount);
-            });
-        });
+    $("#love-button").on("click", function(event) {
+        event.preventDefault();
+        loveCounter++;
+        database.ref('loveCount').set({
+            loveCount: loveCounter
+        });  
+    });
     
-
-
-        $("#hate-button").on("click", function(event) {
-            event.preventDefault();
-            hateCounter++;
-            database.ref().set({
-                hateCount: hateCounter
-            });
-            database.ref().on("value", function(snapshot) {
-                console.log(snapshot.val());   
-                // Update the clickCounter variable with data from the database.
-                hateCounter = snapshot.val().hateCount;
-                // Then we change the html associated with the number.
-                $("#hate-button").text(snapshot.val().hateCount);
-            });
-        });
+    $("#hate-button").on("click", function(event) {
+        event.preventDefault();
+        hateCounter++;
+        database.ref("hateCount").set({
+            hateCount: hateCounter
+        });          
+    });
     
 
 
