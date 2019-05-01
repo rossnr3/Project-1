@@ -231,7 +231,7 @@ $(document).ready(function() {                  // Wait on document to load
     }
 
     // Get Artist from selected row and query API for artist details - jimmyg
-    $(document).on("click", ".event-row", function() {  //click on row;  ***need rows to have a class; can be defined when row is created
+    $(document).on("click", "#search-artist", function() {  //click on row;  ***need rows to have a class; can be defined when row is created
         let searchArtist = $(this).attr(artist.name);
         let queryArtistURL = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist="  // query URL for last.fm
                             + searchArtist 
@@ -270,9 +270,10 @@ $(document).ready(function() {                  // Wait on document to load
     // Child Added Event Handler
     // Called once for each child on initial load of data, and each time a new
     // child is added.
-    function childAdded(snapshot) {
+    
+    //function childAdded(snapshot) {
 
-    }
+    //}
 
     /***************************************************************************
      * UI Event Handlers
@@ -357,14 +358,70 @@ $(document).ready(function() {                  // Wait on document to load
     }
 
     /***************************************************************************
-     * Application Entry Point - Begin Application Logic
+     * Firebase - capture user artist votes
     ***************************************************************************/
+    
+      // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBj6ftpfNhikXm0QJLs8fmHKeerGLuRp3E",
+        authDomain: "project01-artistlove.firebaseapp.com",
+        databaseURL: "https://project01-artistlove.firebaseio.com",
+        projectId: "project01-artistlove",
+        storageBucket: "project01-artistlove.appspot.com",
+        messagingSenderId: "338853202244"
+    };
+
     firebase.initializeApp(config);             // Initialize firebase &
     databaseRef = firebase.database();          // ...save ref to database
 
-    databaseRef.ref().on(CHILD_ADDED, childAdded); // child added event handler 
+    let loveCounter = 0;
+    let hateCounter = 0;
 
-    $(EVENT_BTN).on("click", searchEvents);     // submit button event handler    
-    $(MORE_BTN).on("click", moreEvents);        // next page button event handler   
+    
+
+        $("#love-button").on("click", function(event) {
+            event.preventDefault();
+            loveCounter++;
+            database.ref().set({
+                loveCount: loveCounter
+            });
+            database.ref().on("value", function(snapshot) {
+                console.log(snapshot.val());   
+                // Update the clickCounter variable with data from the database.
+                loveCounter = snapshot.val().loveCount;
+                // Then we change the html associated with the number.
+                $("#love-button").text(snapshot.val().loveCount);
+            });
+        });
+    
+
+
+        $("#hate-button").on("click", function(event) {
+            event.preventDefault();
+            hateCounter++;
+            database.ref().set({
+                hateCount: hateCounter
+            });
+            database.ref().on("value", function(snapshot) {
+                console.log(snapshot.val());   
+                // Update the clickCounter variable with data from the database.
+                hateCounter = snapshot.val().hateCount;
+                // Then we change the html associated with the number.
+                $("#hate-button").text(snapshot.val().hateCount);
+            });
+        });
+    
+
+
+    /***************************************************************************
+     * Application Entry Point - Begin Application Logic
+    ***************************************************************************/
+   //firebase.initializeApp(config);             // Initialize firebase &           --jimmyg: banged out since I firebase'd above
+   //databaseRef = firebase.database();          // ...save ref to database         --jimmyg: banged out since I firebase'd above
+
+   //databaseRef.ref().on(CHILD_ADDED, childAdded); // child added event handler    --jimmyg: banged out since I firebase'd above
+
+   $(EVENT_BTN).on("click", searchEvents);     // submit button event handler    
+   $(MORE_BTN).on("click", moreEvents);        // next page button event handler  
 
 });
