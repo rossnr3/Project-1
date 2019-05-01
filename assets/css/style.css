@@ -24,12 +24,10 @@ container {
     color: aliceblue;
 }
 
-.card {
-    float: left;
-    box-shadow: 4px 4px 5px gray;
-    z-index: -1;
-}
-
 .media-object-section {
     padding-left: 30px;
+}
+
+#moreButton {
+    float: right;
 }
