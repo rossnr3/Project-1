@@ -393,9 +393,46 @@ $(document).ready(function() {                  // Wait on document to load
      * Application Entry Point - Begin Application Logic
     ***************************************************************************/
     firebase.initializeApp(config);             // Initialize firebase &
-    databaseRef = firebase.database();          // ...save ref to database
+    database = firebase.database();          // ...save ref to database
 
-    databaseRef.ref().on(CHILD_ADDED, childAdded); // child added event handler 
+    let loveCounter = 0;
+    let hateCounter = 0;
+
+    
+    database.ref().on("value", function(snapshot) {
+        console.log(snapshot.val().loveCount);
+        console.log(snapshot.val().hateCount);   
+        // Update the clickCounter variable with data from the database.
+        hateCounter = snapshot.val().hateCount.hateCount;
+        loveCounter = snapshot.val().loveCount.loveCount;
+        // Then we change the html associated with the number.
+        $("#hate-button").text(snapshot.val().hateCount.hateCount);
+        $("#love-button").text(snapshot.val().loveCount.loveCount);
+    });
+
+    $("#love-button").on("click", function(event) {
+        event.preventDefault();
+        loveCounter++;
+        database.ref('loveCount').set({
+            loveCount: loveCounter
+        });  
+    });
+    
+    $("#hate-button").on("click", function(event) {
+        event.preventDefault();
+        hateCounter++;
+        database.ref("hateCount").set({
+            hateCount: hateCounter
+        });          
+    });
+    
+
+
+    /***************************************************************************
+     * Application Entry Point - Begin Application Logic
+    ***************************************************************************/
+   //firebase.initializeApp(config);             // Initialize firebase &           --jimmyg: banged out since I firebase'd above
+   //databaseRef = firebase.database();          // ...save ref to database         --jimmyg: banged out since I firebase'd above
 
     $(EVENT_BTN).on("click", searchEvents);     // submit button event handler    
     $(MORE_BTN).on("click", moreEvents);        // next page button event handler  
