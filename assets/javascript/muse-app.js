@@ -1,25 +1,19 @@
 /*******************************************************************************
- * Local Muse Application
- * Script for Project-1 Assignment
+ * Script for Project-1 Assignment - Local Muse
 *******************************************************************************/
 
 $(document).ready(function() {                  // Wait on document to load
 
-    /************************************************************************
-     * Application Global Variables
-    ************************************************************************/
+    // /***************************************************************************
+    //  * Application Global Variables
+    // ***************************************************************************/
     
-    //
-    // HTML Element IDs
-    //
-    const LOCATION_INPUT = "#location-input";   // text input field
+    // HTML Variables
+    const LOCATION_INPUT = "#location-input";   // Location input field
     const EVENT_BTN = "#event-button";          // Event search button clicked    
-    const EVENT_TABLE = "#event-table";         // Event display table   
-    const MORE_BTN = "#more-events-button";     // Display more events          
+    const EVENT_TABLE = "tbody";                // Event display table             
 
-    //
     // Firebase Variables
-    //
     const CHILD_ADDED = "child_added";          // Firebase events
 
     const config = {                            // Firebase configuration
@@ -32,22 +26,27 @@ $(document).ready(function() {                  // Wait on document to load
     };
     let databaseRef = null;                     // Ref to Firebase database
 
-    //
     // SeatGeek Variables
-    //
     const DEFAULT_LOCATION = "Denver";          // SeatGeek location default
-    const DEFAULT_PRICE = "Sold Out";           // SeatGeek default price
-    const eventsURL = "https://api.seatgeek.com/2/events?";
-    const cityOption = "venue.city=";
-    const stateOption = "&venue.state=";
-    const concertOption = "&type=concert";
-    const apiID = "&client_id=MTYzODc2MTJ8MTU1NjI0NTEzOC44NA";
-    let queryLocation = "";
-    let queryPage = 0;
+    const DEFAULT_PRICE = 45;                   // SeatGeek default price
+    let location = DEFAULT_LOCATION;            // SeatGeek search location
+    let queryURL = "https://api.seatgeek.com/2/events?venue.city=" // URL
+                   + location
+                   + "&type=concert"
+                   + "&client_id=MTYzODc2MTJ8MTU1NjI0NTEzOC44NA";
 
-    //
-    // Internal Venue Object
-    //
+    class User {                                // Subscribed user object
+        constructor(name, email, password, card) {
+            // unique key of email + password
+            this.userID = email.toLowerCase() + password.toLowerCase();                     
+            this.name = name;                   // User's name
+            this.email = email;
+            this.password = password;           // User's password
+            this.creditCard = card;             // Credit card number
+            this.reservations = [];             // Current reservations
+        }
+    }
+
     class Venue {
         constructor(id, location, theater) {
             this.venueID = id;
@@ -56,9 +55,6 @@ $(document).ready(function() {                  // Wait on document to load
         }
     }
 
-    //
-    // Internal Artist Object
-    //
     class Artist {                              // Artist object
         constructor(id, name, image) {
             this.artistID = id;                 // unique artist key
@@ -67,167 +63,80 @@ $(document).ready(function() {                  // Wait on document to load
         }
     }
 
-    //
-    // Internal Event Object
-    //
     const events = [];                          // Array of events
-    let eventPages = 0;                         // Number of events avail
     class Event {                               // Event object
-        constructor(id, title, localDate, venue, price, tickets, url,
-            artistArr=[]) {
+        constructor(id, title, localDate, venue, price, artistArr=[]) {
             this.eventID = id;                  // unique event key                                                
             this.title = title;                 // concert title
             this.artists = artistArr;           // Performers
-            this.eventDate = localDate;         // date of event
+            this.eventDate = localDate;              // date of event
             this.venue = venue;                 // location
-            this.price = price;                 // average price
-            this.tickets = tickets;             // ticket listings
-            this.ticketURL = url;
-        }
-        toString() {                            // Debuggging method
-            let result = "Event Object:";
-            result += `\n\tID: ${this.eventID} Title: ${this.title}`;
-            result += "\n\tArtists:";
-            this.artists.forEach(function(artist) {
-                result += "\n\t\t" + artist.name;
-            });
-            result += `\n\tVenue: ${this.venue.theater}`;
-            result += `\n\tDate: ${this.eventDate}`;
-            result += `\n\tTicket Listings: ${this.tickets}`;
-            result += `\n\tAverage Price: ${this.price}`;
-            result += `\n\tTicket URL: ${this.ticketURL}`;
-            return result;
-        }
-        print() {                               // Debugging method
-            console.log(this.toString());
+            if (price) {                        // Ticket price
+                this.price = price;
+            } else {
+                this.price = DEFAULT_PRICE;
+            }
         }
     }
+
+    let errors = [];                            // validation errors 
 
     /***************************************************************************
-     * Helper Functions
+     * General Helper Functions
     ***************************************************************************/
-    // Process user location entry.
-    // The location for a search may be entered as 'city' or as 'city, ST'.
-    // Invalid formats will be discarded, and the default location set.
-    //      inputVal: string, value entered by user
-    //      return: string, 'city=...' or 'city=...state=..'
-    function processLocation(inputVal) {
-        let tempArray = inputVal.trim().split(",");     // Split location entered
-        // Return default for blank input
-        if (tempArray.length === 1 && tempArray[0].length === 0) {  
-            return cityOption + DEFAULT_LOCATION;
-        }
-
-        for (let i = 0; i < tempArray.length; i++) {    // ...remove whitespace
-            tempArray[i] = tempArray[i].trim();
-        }
-        let result = "";
-        switch (tempArray.length) {
-            case 1:                                     // Only city entered
-                result = cityOption + tempArray[0];
-            break;
-            case 2:                                     // city, state entered
-                result = cityOption + tempArray[0];
-                if (tempArray[1].length === 2) {
-                    result += stateOption + tempArray[1];
-                }
-            break;
-            default:                                    // use default location
-                result = cityOption + DEFAULT_LOCATION;
-            break;
-        }
-        return result;                                  // return options
-    }
-    
-    // Validate and format the average ticket price and the ticket listings
-    // The object is modified with the result.
-    function validatePrice(fmtObject) {
-        if (!fmtObject.price || !fmtObject.tickets) {
-            fmtObject.price = DEFAULT_PRICE;
-            fmtObject.tickets = 0;
-        } else {
-            fmtObject.price = fmtObject.price.toLocaleString(undefined,
-                {style: "currency", currency: "USD"});
-            fmtObject.tickets = fmtObject.tickets.toString();
-        }
-    }
 
     /***************************************************************************
-     * Handle Event Functions
+     * Event Functions
     ***************************************************************************/
 
-    // Append event table data to the table row element
+    // Append event data to the table row element
     function appendData(tableRow, tableData) {
         let td = $("<td>");
         td.text(tableData);
         tableRow.append(td);
     }
-
     // Render the Event objects as HTML table rows
     function renderEvents() {
         $(EVENT_TABLE).empty();                 // Clear table entries
-        let eventTable = $(EVENT_TABLE);        // Ref to table
-        events.forEach(function(event) {        // Loop thru event array
-            let tr = $("<tr>");                 // Create tr element
-            let td = $("<td>");                 // Create td element
-            let eventLink = $("<a>");           // Create link
-            eventLink.attr({"href": event.ticketURL,
-                "target": "_blank"});
-            eventLink.text(event.title);        // link text content
-            td.append(eventLink);               // Add to td
-            tr.append(td);                      // Add td to tr
-            appendData(tr, event.eventDate);    // Add date and time
-            appendData(tr, event.venue.theater  // Add theater & city, st
-                + ", " + event.venue.location);
-            let eventArtists = "";              // Add artists array
-            event.artists.forEach(function(artist) {
+        let tbody = $(EVENT_TABLE);
+        events.forEach(function(eventObj) {     // Loop thru event array
+            let tr = $("<tr>");
+            appendData(tr, eventObj.title);
+            appendData(tr, eventObj.eventDate);
+            appendData(tr, eventObj.venue.theater + "; " 
+                + eventObj.venue.location);
+            let eventArtists = "";
+            eventObj.artists.forEach(function(artist) {
                 eventArtists += artist.name + "; ";
             });
-            if (eventArtists.length > 2) {      // remove last '; '
+            if (eventArtists.length > 2) {
                 eventArtists = eventArtists.substr(0, eventArtists.length - 2);
             }
-            appendData(tr, eventArtists);       // add artist
-            appendData(tr,                      // add ticket listings & price
-                `${event.tickets} / ${event.price}`);
-            eventTable.append(tr);              // Add row to table
+            appendData(tr, eventArtists);
+            tbody.append(tr);            
         });
     }
 
-    // Extract the SeatGeek data & create an array of Event objects
-    // Loop thru SeatGeek events object, creating Event objects. Only use 
-    // 'concert' events. Create a Venue object and Artist objects.
-    //      eventARR: array, SeatGeek events result
+    // Extract the SeatGeek data and create Event objects, adding them to
+    // an array.
     function getEvents(eventArr=[]) {
-        events.length = 0;                      // Empty existing array
-        // Loop thru SeatGeek Event objects
-        eventArr.forEach(function(sgEvent) {    // Loop thru seatgeek events
-            if (sgEvent.type === "concert") {   // Concert?
-                                                // Yes - Create Venue object
-                let venueObj = new Venue(sgEvent.venue.id, 
-                    sgEvent.venue.display_location, sgEvent.venue.name);
-                                                // Create array Artist objects
+        events.length = 0;
+        for (let i=0; i < eventArr.length; i++) {
+            if (eventArr[i].type === "concert") {
+                let venueObj = new Venue(eventArr[i].venue.id, 
+                    eventArr[i].venue.display_location, eventArr[i].venue.name);
                 let artists = [];
-                sgEvent.performers.forEach(function(sgPerformer) {
-                    let artistObj = new Artist(sgPerformer.id, 
-                        sgPerformer.name, sgPerformer.image);
+                eventArr[i].performers.forEach(function(performerObj) {
+                    let artistObj = new Artist(performerObj.id, 
+                        performerObj.name, performerObj.image);
                     artists.push(artistObj);
                 });
-                                                // Format price / tickets listings
-                let fmtPriceTickets = {
-                    price: sgEvent.stats.average_price,
-                    tickets: sgEvent.stats.listing_count
-                };
-                validatePrice(fmtPriceTickets);
-                                                // Create Event object, add to array
-                let concert = new Event(sgEvent.id, sgEvent.title, moment(
-                    sgEvent.datetime_local).format("dddd, MMMM Do YYYY, h:mm:ss a"),
-                    venueObj, fmtPriceTickets.price, fmtPriceTickets.tickets,
-                    sgEvent.url, artists);
+                let concert = new Event(eventArr[i].id, eventArr[i].title,
+                    eventArr[i].datetime_local, venueObj, 
+                    eventArr[i].stats.average_price, artists);
                 events.push(concert);
-
-                // concert.print();                // Debugging
             }
-        });
+        }
     }
 
     // Get Artist from selected row and query API for artist details - jimmyg
@@ -265,6 +174,10 @@ $(document).ready(function() {                  // Wait on document to load
 
 
     /***************************************************************************
+     * Timing/Date Functions
+    ***************************************************************************/
+
+    /***************************************************************************
      * Firebase Event Handlers
     ***************************************************************************/
     // Child Added Event Handler
@@ -277,83 +190,44 @@ $(document).ready(function() {                  // Wait on document to load
     /***************************************************************************
      * UI Event Handlers
     ***************************************************************************/
-    // Event Button has been clicked, or ENTER used.
-    // Search for events by location. Location can be City or City, ST or blank.
+    // Search for events
     function searchEvents(event) {
         event.preventDefault();                 // Prevent Submit propagation
 
-        // Extract query location and build URL
-        queryLocation = processLocation($(LOCATION_INPUT).val());
-        let queryURL = eventsURL + queryLocation + concertOption + apiID;
+        let inputVal = $(LOCATION_INPUT).val().trim(); // Save entered data
+        if (inputVal.length === 0) {            // If no location entered, use
+            location = DEFAULT_LOCATION;        // ...default location
+        } else {
+            location = inputVal;
+        }
 
-        // NOTE: This code is kept inline to avoid timing issues.
         let xhr = new XMLHttpRequest();         // Set up HTTP request
         xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 300) { // Request Succeeded?
-                                                         // ...Yes
-                let sgEvents = JSON.parse(xhr.response); // SeatGeek events
-                
-                let totalPg = sgEvents.meta.total;      // total pages
-                let pgPerQry = sgEvents.meta.per_page; // pages/query
-                eventPages = (totalPg % pgPerQry === 0) ? // Pages to display
-                    totalPg / pgPerQry : Math.floor(totalPg / pgPerQry) + 1;
-                queryPage = sgEvents.meta.page;         // Save current page
-                console.log("totalPg:", totalPg);
-                console.log("pgPerQry:", pgPerQry);
-                console.log("eventPages:", eventPages);
-                console.log("queryPage:", queryPage);
-
-                getEvents(sgEvents.events);             // Extract event objects
-                renderEvents();                         // Display upcoming events
-                if (queryPage >= eventPages) {          // Enable/disable MORE
-                    $(MORE_BTN).prop("disabled", true);
-                } else {
-                    $(MORE_BTN).prop("disabled", false);
-                }
-            } else {                                    // Request Failed
-                console.log("Request Failed!");
-            }
-            $(LOCATION_INPUT).val("");                  // Clear input field
-        };
-        // Generate request
-        xhr.open("GET", queryURL);
-        xhr.send();
-    }
-
-    // More Button has been clicked
-    // Display the next page of events for the current location
-    function moreEvents(event) {
-        queryPage++;                                    // Create next page option
-        let pageNo = "&page=" + queryPage;
-        let queryURL = eventsURL + queryLocation + concertOption + pageNo + apiID;
-        console.log("pageNo:", pageNo);
-
-        // NOTE: This code is kept inline to avoid timing issues.
-        let xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 300) { // Request Succeeded?
-                                                         //...Yes
-                let sgEvents = JSON.parse(xhr.response); // SeatGeek events
-
-                queryPage = sgEvents.meta.page;          // Save current page
-
-                getEvents(sgEvents.events);              // Extract event objects
-                renderEvents();                          // Display upcoming events
-
-                console.log("queryPage:", queryPage, ", eventPages:", eventPages);
-                if (queryPage >= eventPages) {          // Enable/disable MORE
-                    $(MORE_BTN).prop("disabled", true);
-                } else {
-                    $(MORE_BTN).prop("disabled", false);
-                }
+            if (xhr.status >= 200 && xhr.status < 300) {
+                let jsonObj = JSON.parse(xhr.response);
+                getEvents(jsonObj.events);
+                renderEvents();
             } else {
                 console.log("Request Failed!");
             }
             // Code here runs either way
         };
-        // Generate request
+
         xhr.open("GET", queryURL);
         xhr.send();
+
+        // TODO search for artist
+        // TODO Not Found
+            // TODO Notify user
+            // TODO focus on input field
+            // TODO exit
+        // TODO Found
+            // TODO clear input field
+            // TODO Create Artist object
+            // TODO In artists array?
+                // TODO No - Add to artists array
+            // TODO Link to Artist page & create content from array
+            // TODO exit
     }
 
     /***************************************************************************
@@ -364,7 +238,6 @@ $(document).ready(function() {                  // Wait on document to load
 
     databaseRef.ref().on(CHILD_ADDED, childAdded); // child added event handler 
 
-    $(EVENT_BTN).on("click", searchEvents);     // submit button event handler    
-    $(MORE_BTN).on("click", moreEvents);        // next page button event handler   
+    $(EVENT_BTN).on("click", searchEvents);     // submit button event handler       
 
 });
