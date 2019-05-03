@@ -9,6 +9,16 @@ font-family: 'Open Sans', sans-serif; ==BODYTEXT
 
 body {
   font-family: 'Open Sans', sans-serif;
+  background-image: url('../images/dark-mosaic.png');
+  background-color: #76328e;
+}
+
+h1 {
+  font-family: 'Righteous', cursive;
+}
+
+table {
+  margin-top: 20px;
 }
 
 .fa-search-location {
@@ -49,10 +59,6 @@ body {
         -ms-flex-align: center;
             align-items: center;
     border-bottom: solid 3px black;
-  }
-  
-  .hero-search-filter-logo {
-    margin-bottom: 2rem;
   }
   
   .hero-search-filter-content {
