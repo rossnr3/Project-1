@@ -56,13 +56,7 @@
   </div> -->
 
 
-<<<<<<< HEAD
-  <!--Main container with Highlight on Todays/Big events-->
-  <div class="jumbotron">
-    <h1 class="display-4">Happening Now/Coming Soon!</h1>
-    <p class="lead"></p>
-  </div>
-=======
+
   <!-- Main container with Highlight on Todays/Big events
   <section class="hero">
     <div class="hero-body">
@@ -83,8 +77,8 @@
           <input id="findtext" class="hero-search-filter-form-find" type="text" />
           <div class="divider">&nbsp;</div>
           <label for="findlocate">Near</label>
-          <input id="findlocate" class="hero-search-filter-form-near" type="text" />
-          <button class="button"><i class="fa fa-search"></i></button>
+          <input id="location-input" class="hero-search-filter-form-near" type="text" />
+          <button id="event-button" class="button"><i class="fa fa-search"></i></button>
         </form>
         <ul class="hero-search-filter-menu menu align-center">
           <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i> Do we need these?</a></li>
@@ -96,7 +90,6 @@
     </header>
     
     
->>>>>>> master
 
   <div class="container">
 
@@ -109,9 +102,10 @@
           <th id="">Dates and times</th>
           <th width="150">Venue</th>
           <th width="150">More information</th>
+          <th width="150">Tickets</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="event-table">
         <tr>
           <td>band Name</td>
           <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
@@ -119,34 +113,44 @@
           <td>Content Goes Here</td>
         </tr>
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" id="moreButton">
-          Launch demo modal
-        </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
-          aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="band-name"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" id="band-summary">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="LOVE_BTN">Love it!</button>
-                <button type="button" class="btn btn-primary" id="HATE_BTN">Hate it!</button>
-              </div>
-            </div>
+    <!-- Button trigger modal -->
+    <button type="button" id="more-events-button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+      Next Page
+    </button>
+
+    <!-- Button trigger modal -->
+    <button type="button" id="search-artist" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+      Display Artist
+    </button>
+
+     <!-- Button trigger modal -->
+     <button type="button" id="buy-tickets" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+      Buy Tickets
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Artist/Band Name</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Bio!
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Love it!</button>
+            <button type="button" class="btn btn-primary">Hate it!</button>
+
           </div>
         </div>
 
 
 </body>
-
+<!--pushing NEW-->
 </html>
