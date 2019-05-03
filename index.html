@@ -44,10 +44,7 @@
   <!-- <div class="top-bar" id="example-menu">
     <div class="top-bar-left">
       <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text"><a href="index.html">Local Muse</a></li>
-        <li><a href="assets/pagelinks/concert.html">Concerts</a></li>
-        <li><a href="assets/pagelinks/sports.html">Sports</a></li>
-        <li><a href="assets/pagelinks/theater.html">Theater</a></li>
+        <li class="menu-text">Local Muse</li>
       </ul>
     </div>
     <div class="top-bar-right">
@@ -59,6 +56,13 @@
   </div> -->
 
 
+<<<<<<< HEAD
+  <!--Main container with Highlight on Todays/Big events-->
+  <div class="jumbotron">
+    <h1 class="display-4">Happening Now/Coming Soon!</h1>
+    <p class="lead"></p>
+  </div>
+=======
   <!-- Main container with Highlight on Todays/Big events
   <section class="hero">
     <div class="hero-body">
@@ -92,6 +96,7 @@
     </header>
     
     
+>>>>>>> master
 
   <div class="container">
 
@@ -100,47 +105,46 @@
     <table class="hover">
       <thead>
         <tr>
-          <th width="200">Band/Event Name</th>
-          <th>Dates and times</th>
+          <th width="200" id="band-name"></th>
+          <th id="">Dates and times</th>
           <th width="150">Venue</th>
           <th width="150">More information</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td id="band-name"></td>
+          <td>band Name</td>
           <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
           <td>Content Goes Here</td>
           <td>Content Goes Here</td>
         </tr>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-      More Inforamtion
-    </button>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" id="moreButton">
+          Launch demo modal
+        </button>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Artist/Band Name</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Bio!
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Love it!</button>
-            <button type="button" class="btn btn-primary">Hate it!</button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="band-name"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="band-summary">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="LOVE_BTN">Love it!</button>
+                <button type="button" class="btn btn-primary" id="HATE_BTN">Hate it!</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
 
 </body>
