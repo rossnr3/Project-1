@@ -342,7 +342,7 @@ $(document).ready(function() {                  // Wait on document to load
         let searchArtist = events[eventsIndex].artists[0].name
         console.log(searchArtist);
 
-        let queryArtistURL = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist="  // query URL for last.fm
+        let queryArtistURL = "https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist="  // query URL for last.fm
                             + searchArtist 
                             + "&api_key=568f44e6089a6a0cf9def6d576559c73&format=json";
         
@@ -371,7 +371,7 @@ $(document).ready(function() {                  // Wait on document to load
             });
 
 
-            //$("#artist-modal").modal();
+
 
 
 
