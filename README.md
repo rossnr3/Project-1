@@ -8,7 +8,7 @@ should be a subscription site. It requires a user name and password, as well
 as other identifying information if reservations are to be made. Anyone can
 browse the site to discover local events. 
 
-## Second Thought's
+## Second Thoughts
 
 I think we should probably start simple, get it running, and then add features
 that we can't live without.
