@@ -10,6 +10,11 @@ font-family: 'Open Sans', sans-serif; ==BODYTEXT
 body {
   font-family: 'Open Sans', sans-serif;
 }
+
+.fa-search-location {
+  margin: 10px;
+}
+
 .container {
     padding-right: 50px;
 }
@@ -43,6 +48,7 @@ body {
     -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
+    border-bottom: solid 3px black;
   }
   
   .hero-search-filter-logo {
@@ -95,11 +101,7 @@ body {
     font-weight: normal;
     text-decoration: none;
   }
-  
-  .hero-search-filter-menu a:hover {
-    text-decoration: underline;
-  }
-  
+    
   .hero-search-filter-form {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -111,11 +113,6 @@ body {
     -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
-  }
-  
-  .hero-search-filter-form .divider {
-    background-color: #cacaca;
-    width: 1px;
   }
   
   .hero-search-filter-form label {
