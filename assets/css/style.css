@@ -7,24 +7,17 @@ font-family: 'Righteous', cursive; ===HEADERTEXT
 font-family: 'Open Sans', sans-serif; ==BODYTEXT
  */
 
+body {
+  font-family: 'Open Sans', sans-serif;
+}
 
-container {
+.fa-search-location {
+  margin: 10px;
+}
+
+.container {
     padding-right: 50px;
-    font-family: 'Open Sans', sans-serif;
 }
-
-/* .top-bar {
-    position: fixed;
-    width: 100%;
-} */
-
-/* .hero {
-    width: 100%;
-    text-align: center;
-    background-image: url(../images/concert.jpg);
-    background-size: cover;
-}
- */
 
 .display-4 {
     padding-top: 30px;
@@ -33,7 +26,6 @@ container {
 }
 
 #moreButton {
-
     float: right;
 }
 
@@ -56,6 +48,7 @@ container {
     -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
+    border-bottom: solid 3px black;
   }
   
   .hero-search-filter-logo {
@@ -108,11 +101,7 @@ container {
     font-weight: normal;
     text-decoration: none;
   }
-  
-  .hero-search-filter-menu a:hover {
-    text-decoration: underline;
-  }
-  
+    
   .hero-search-filter-form {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -124,11 +113,6 @@ container {
     -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
-  }
-  
-  .hero-search-filter-form .divider {
-    background-color: #cacaca;
-    width: 1px;
   }
   
   .hero-search-filter-form label {
