@@ -361,7 +361,7 @@ $(document).ready(function() {                  // Wait on document to load
                 if (response.error!=6) {
                 $('#band-name').css('textTransform', 'capitalize');
                 $("#band-name").text(response.artist.name);  
-                $("#band-url").attr("href", response.artist.url);  // ***requires <p><a href=" " id="band-url">Band URL</a></p>
+                //$("#band-url").attr("href", response.artist.url);  // ***requires <p><a href=" " id="band-url">Band URL</a></p>
                 //$("#band-image").attr("src", response.artist.image[2]["#text"]);  // ***requires <img id="band-image"></img>
                 $("#band-summary").html(response.artist.bio.summary);  
                 } else {
