@@ -15,7 +15,9 @@ $(document).ready(function() {                  // Wait on document to load
     const LOCATION_INPUT = "#location-input";   // text input field
     const EVENT_BTN = "#event-button";          // Event search button clicked    
     const EVENT_TABLE = "#event-table";         // Event display table   
-    const MORE_BTN = "#more-events-button";     // Display more events          
+    const MORE_BTN = "#more-events-button";     // Display more events   
+    const SEARCH_ARTIST = "#search-artist";     // Search for an artist
+    const BUY_TICKETS = "#buy-tickets";         // Buy tickets       
 
     //
     // Firebase Variables
@@ -71,6 +73,7 @@ $(document).ready(function() {                  // Wait on document to load
     // Internal Event Object
     //
     const events = [];                          // Array of events
+    let eventsIndex = -1;                       // Current index clicked
     let eventPages = 0;                         // Number of events avail
     class Event {                               // Event object
         constructor(id, title, localDate, venue, price, tickets, url,
@@ -165,16 +168,27 @@ $(document).ready(function() {                  // Wait on document to load
 
     // Render the Event objects as HTML table rows
     function renderEvents() {
+        eventsIndex = -1;                       // Initialize index
+        $(SEARCH_ARTIST).prop("disabled", true);    // Disable buttons
+        $(BUY_TICKETS).prop("disabled", true);
+
         $(EVENT_TABLE).empty();                 // Clear table entries
         let eventTable = $(EVENT_TABLE);        // Ref to table
         events.forEach(function(event) {        // Loop thru event array
             let tr = $("<tr>");                 // Create tr element
+            //tr.attr("onclick", "rowClicked(this)"); // Add row click event handler
             let td = $("<td>");                 // Create td element
-            let eventLink = $("<a>");           // Create link
-            eventLink.attr({"href": event.ticketURL,
-                "target": "_blank"});
-            eventLink.text(event.title);        // link text content
-            td.append(eventLink);               // Add to td
+
+            // // REMOVE LINK TO SEATGEEK TICKETS URL
+            // let eventLink = $("<a>");           // Create link
+            // eventLink.attr({"href": event.ticketURL,
+            //     "target": "_blank"});
+            // eventLink.text(event.title);        // link text content
+            // td.append(eventLink);               // Add to td
+
+            // Added CODE
+            td.text(event.title);               // Add event title
+
             tr.append(td);                      // Add td to tr
             appendData(tr, event.eventDate);    // Add date and time
             appendData(tr, event.venue.theater  // Add theater & city, st
@@ -277,6 +291,25 @@ $(document).ready(function() {                  // Wait on document to load
     /***************************************************************************
      * UI Event Handlers
     ***************************************************************************/
+
+    // Table Row Clicked Event Handler
+    $(document).on("click", "tr", function() {  
+        console.log("Table Row Clicked: Row index =", this.rowIndex);
+        let idx = this.rowIndex;
+        if (idx >= 1) {
+            eventsIndex = idx - 1;              // Set index relative to 1st row
+            $(SEARCH_ARTIST).prop("disabled", false);    // Enable buttons
+            $(BUY_TICKETS).prop("disabled", false);
+            }
+    });
+
+    // Buy tickets
+    function buyTickets() {
+        let event = events[eventsIndex];
+        window.open(event.ticketURL, '_blank');
+        // window.location.href = event.ticketURL;
+    }
+
     // Event Button has been clicked, or ENTER used.
     // Search for events by location. Location can be City or City, ST or blank.
     function searchEvents(event) {
@@ -360,11 +393,50 @@ $(document).ready(function() {                  // Wait on document to load
      * Application Entry Point - Begin Application Logic
     ***************************************************************************/
     firebase.initializeApp(config);             // Initialize firebase &
-    databaseRef = firebase.database();          // ...save ref to database
+    database = firebase.database();          // ...save ref to database
 
-    databaseRef.ref().on(CHILD_ADDED, childAdded); // child added event handler 
+    let loveCounter = 0;
+    let hateCounter = 0;
+
+    
+    database.ref().on("value", function(snapshot) {
+        console.log(snapshot.val().loveCount);
+        console.log(snapshot.val().hateCount);   
+        // Update the clickCounter variable with data from the database.
+        hateCounter = snapshot.val().hateCount.hateCount;
+        loveCounter = snapshot.val().loveCount.loveCount;
+        // Then we change the html associated with the number.
+        $("#hate-button").text(snapshot.val().hateCount.hateCount);
+        $("#love-button").text(snapshot.val().loveCount.loveCount);
+    });
+
+    $("#love-button").on("click", function(event) {
+        event.preventDefault();
+        loveCounter++;
+        database.ref('loveCount').set({
+            loveCount: loveCounter
+        });  
+    });
+    
+    $("#hate-button").on("click", function(event) {
+        event.preventDefault();
+        hateCounter++;
+        database.ref("hateCount").set({
+            hateCount: hateCounter
+        });          
+    });
+    
+
+
+    /***************************************************************************
+     * Application Entry Point - Begin Application Logic
+    ***************************************************************************/
+   //firebase.initializeApp(config);             // Initialize firebase &           --jimmyg: banged out since I firebase'd above
+   //databaseRef = firebase.database();          // ...save ref to database         --jimmyg: banged out since I firebase'd above
 
     $(EVENT_BTN).on("click", searchEvents);     // submit button event handler    
-    $(MORE_BTN).on("click", moreEvents);        // next page button event handler   
+    $(MORE_BTN).on("click", moreEvents);        // next page button event handler  
+    $(BUY_TICKETS).on("click", buyTickets);     // Buy tickets clicked 
+
 
 });
