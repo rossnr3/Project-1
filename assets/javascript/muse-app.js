@@ -75,6 +75,9 @@ $(document).ready(function() {                  // Wait on document to load
     const events = [];                          // Array of events
     let eventsIndex = -1;                       // Current index clicked
     let eventPages = 0;                         // Number of events avail
+    let lastRow = undefined;                    // Last event row clicked
+    let currentRow = undefined;                 // Current row clicked
+    let previousBackground = undefined;         // Row's prior background color
     class Event {                               // Event object
         constructor(id, title, localDate, venue, price, tickets, url,
             artistArr=[]) {
@@ -262,7 +265,15 @@ $(document).ready(function() {                  // Wait on document to load
     ***************************************************************************/
 
     // Table Row Clicked Event Handler
-    $(document).on("click", "tr", function() {  
+    $(document).on("click", "tr", function() {
+        if (typeof currentRow === "undefined") {
+            currentRow = $(this);
+            previousBackground = currentRow.css("background-color");
+        } else {
+            currentRow.css("background-color", previousBackground);
+            currentRow = $(this);
+        }
+        currentRow.css("background-color", "darkgrey");
         console.log("Table Row Clicked: Row index =", this.rowIndex);
         let idx = this.rowIndex;
         if (idx >= 1) {
