@@ -144,5 +144,9 @@ body {
     border: 0;
     box-shadow: none;
   }
+
+  .buttonContainer {
+    float: right;
+  }
   
   /* ************************************************************* */
