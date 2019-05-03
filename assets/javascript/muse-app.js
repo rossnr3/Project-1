@@ -325,15 +325,16 @@ $(document).ready(function() {                  // Wait on document to load
     // Get Artist from selected row and query API for artist details 
     function searchArtist (event) {
         event.preventDefault();
+
+        //$("#artist-modal").modal();
         
         let searchArtist = events[eventsIndex].artists[0].name
         console.log(searchArtist);
-        //let searchArtist = $(this).attr(artist.name);
+
         let queryArtistURL = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist="  // query URL for last.fm
                             + searchArtist 
                             + "&api_key=568f44e6089a6a0cf9def6d576559c73&format=json";
         
-        $("#displayed-artist").remove(); // removes any previous artist displayed  ***need id defined for artist display div
 
         $.ajax({
             url: queryArtistURL,
@@ -350,13 +351,19 @@ $(document).ready(function() {                  // Wait on document to load
                 $('#band-name').css('textTransform', 'capitalize');
                 $("#band-name").text(response.artist.name);  
                 $("#band-url").attr("href", response.artist.url);  // ***requires <p><a href=" " id="band-url">Band URL</a></p>
-                $("#band-image").attr("src", response.artist.image[2]["#text"]);  // ***requires <img id="band-image"></img>
+                //$("#band-image").attr("src", response.artist.image[2]["#text"]);  // ***requires <img id="band-image"></img>
                 $("#band-summary").html(response.artist.bio.summary);  
                 } else {
                     console.log("The artist could not be found.");
                     $("#band-name").text("The artist could not be found.");
                 }
             });
+
+
+            //$("#artist-modal").modal();
+
+
+
         }
 
 
