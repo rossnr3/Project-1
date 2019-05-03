@@ -22,17 +22,17 @@ $(document).ready(function() {                  // Wait on document to load
     //
     // Firebase Variables
     //
-    const CHILD_ADDED = "child_added";          // Firebase events
+    // const CHILD_ADDED = "child_added";          // Firebase events
 
-    const config = {                            // Firebase configuration
-        apiKey: "AIzaSyAmDwJPp9snbM6xBXdXBbTNUVoJNAP3bsI",
-        authDomain: "local-muse.firebaseapp.com",
-        databaseURL: "https://local-muse.firebaseio.com",
-        projectId: "local-muse",
-        storageBucket: "local-muse.appspot.com",
-        messagingSenderId: "252827947960"
-    };
-    let databaseRef = null;                     // Ref to Firebase database
+    // const config = {                            // Firebase configuration
+    //     apiKey: "AIzaSyAmDwJPp9snbM6xBXdXBbTNUVoJNAP3bsI",
+    //     authDomain: "local-muse.firebaseapp.com",
+    //     databaseURL: "https://local-muse.firebaseio.com",
+    //     projectId: "local-muse",
+    //     storageBucket: "local-muse.appspot.com",
+    //     messagingSenderId: "252827947960"
+    // };
+    // let databaseRef = null;                     // Ref to Firebase database
 
     //
     // SeatGeek Variables
@@ -244,38 +244,7 @@ $(document).ready(function() {                  // Wait on document to load
         });
     }
 
-    // Get Artist from selected row and query API for artist details - jimmyg
-    $(document).on("click", ".event-row", function() {  //click on row;  ***need rows to have a class; can be defined when row is created
-        let searchArtist = $(this).attr(artist.name);
-        let queryArtistURL = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist="  // query URL for last.fm
-                            + searchArtist 
-                            + "&api_key=568f44e6089a6a0cf9def6d576559c73&format=json";
-        
-        $("#displayed-artist").remove(); // removes any previous artist displayed  ***need id defined for artist display div
-
-        $.ajax({
-            url: queryArtistURL,
-            method: "POST"
-            }).then(function(response) {
-                console.log("your query string: " + queryArtistURL);  //console logs to verify calls and return
-                console.log(response);
-                console.log(response.artist.name);
-                console.log(response.artist.url);
-                console.log(response.artist.image[2]["#text"]);
-                console.log(response.artist.bio.summary);
-
-                if (response.error!=6) {
-                $('#band-name').css('textTransform', 'capitalize');
-                $("#band-name").text(response.artist.name);  
-                $("#band-url").attr("href", response.artist.url);  // ***requires <p><a href=" " id="band-url">Band URL</a></p>
-                $("#band-image").attr("src", response.artist.image[2]["#text"]);  // ***requires <img id="band-image"></img>
-                $("#band-summary").html(response.artist.bio.summary);  
-                } else {
-                    console.log("The artist could not be found.");
-                    $("#band-name").text("The artist could not be found.");
-                }
-            });
-    });
+    
 
 
     /***************************************************************************
@@ -353,6 +322,47 @@ $(document).ready(function() {                  // Wait on document to load
         xhr.send();
     }
 
+    // Get Artist from selected row and query API for artist details 
+    function searchArtist (event) {
+        event.preventDefault();
+        
+        let searchArtist = events[eventsIndex].artists[0].name
+        console.log(searchArtist);
+        //let searchArtist = $(this).attr(artist.name);
+        let queryArtistURL = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist="  // query URL for last.fm
+                            + searchArtist 
+                            + "&api_key=568f44e6089a6a0cf9def6d576559c73&format=json";
+        
+        $("#displayed-artist").remove(); // removes any previous artist displayed  ***need id defined for artist display div
+
+        $.ajax({
+            url: queryArtistURL,
+            method: "POST"
+            }).then(function(response) {
+                console.log("your query string: " + queryArtistURL);  //console logs to verify calls and return
+                console.log(response);
+                console.log(response.artist.name);
+                console.log(response.artist.url);
+                console.log(response.artist.image[2]["#text"]);
+                console.log(response.artist.bio.summary);
+
+                if (response.error!=6) {
+                $('#band-name').css('textTransform', 'capitalize');
+                $("#band-name").text(response.artist.name);  
+                $("#band-url").attr("href", response.artist.url);  // ***requires <p><a href=" " id="band-url">Band URL</a></p>
+                $("#band-image").attr("src", response.artist.image[2]["#text"]);  // ***requires <img id="band-image"></img>
+                $("#band-summary").html(response.artist.bio.summary);  
+                } else {
+                    console.log("The artist could not be found.");
+                    $("#band-name").text("The artist could not be found.");
+                }
+            });
+        }
+
+
+
+
+
     // More Button has been clicked
     // Display the next page of events for the current location
     function moreEvents(event) {
@@ -392,6 +402,18 @@ $(document).ready(function() {                  // Wait on document to load
     /***************************************************************************
      * Application Entry Point - Begin Application Logic
     ***************************************************************************/
+   
+   var config = {
+    apiKey: "AIzaSyBj6ftpfNhikXm0QJLs8fmHKeerGLuRp3E",
+    authDomain: "project01-artistlove.firebaseapp.com",
+    databaseURL: "https://project01-artistlove.firebaseio.com",
+    projectId: "project01-artistlove",
+    storageBucket: "project01-artistlove.appspot.com",
+    messagingSenderId: "338853202244"
+    };
+   
+   
+   
     firebase.initializeApp(config);             // Initialize firebase &
     database = firebase.database();          // ...save ref to database
 
@@ -400,8 +422,8 @@ $(document).ready(function() {                  // Wait on document to load
 
     
     database.ref().on("value", function(snapshot) {
-        console.log(snapshot.val().loveCount);
-        console.log(snapshot.val().hateCount);   
+        //console.log(snapshot.val().loveCount);
+        //console.log(snapshot.val().hateCount);   
         // Update the clickCounter variable with data from the database.
         hateCounter = snapshot.val().hateCount.hateCount;
         loveCounter = snapshot.val().loveCount.loveCount;
@@ -434,7 +456,8 @@ $(document).ready(function() {                  // Wait on document to load
    //firebase.initializeApp(config);             // Initialize firebase &           --jimmyg: banged out since I firebase'd above
    //databaseRef = firebase.database();          // ...save ref to database         --jimmyg: banged out since I firebase'd above
 
-    $(EVENT_BTN).on("click", searchEvents);     // submit button event handler    
+    $(EVENT_BTN).on("click", searchEvents);     // submit button event handler  
+    $(SEARCH_ARTIST).on("click", searchArtist);    // search artist button event handler
     $(MORE_BTN).on("click", moreEvents);        // next page button event handler  
     $(BUY_TICKETS).on("click", buyTickets);     // Buy tickets clicked 
 

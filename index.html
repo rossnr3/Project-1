@@ -79,8 +79,8 @@
           <input id="findtext" class="hero-search-filter-form-find" type="text" />
           <div class="divider">&nbsp;</div>
           <label for="findlocate">Near</label>
-          <input id="findlocate" class="hero-search-filter-form-near" type="text" />
-          <button class="button"><i class="fa fa-search"></i></button>
+          <input id="location-input" class="hero-search-filter-form-near" type="text" />
+          <button id="event-button" class="button"><i class="fa fa-search"></i></button>
         </form>
         <ul class="hero-search-filter-menu menu align-center">
           <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i> Do we need these?</a></li>
@@ -104,9 +104,10 @@
           <th>Dates and times</th>
           <th width="150">Venue</th>
           <th width="150">More information</th>
+          <th width="150">Tickets</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="event-table">
         <tr>
           <td id="band-name"></td>
           <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
@@ -115,8 +116,18 @@
         </tr>
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-      More Inforamtion
+    <button type="button" id="more-events-button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+      Next Page
+    </button>
+
+    <!-- Button trigger modal -->
+    <button type="button" id="search-artist" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+      Display Artist
+    </button>
+
+     <!-- Button trigger modal -->
+     <button type="button" id="buy-tickets" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+      Buy Tickets
     </button>
 
     <!-- Modal -->
