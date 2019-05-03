@@ -44,10 +44,7 @@
   <!-- <div class="top-bar" id="example-menu">
     <div class="top-bar-left">
       <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text"><a href="index.html">Local Muse</a></li>
-        <li><a href="assets/pagelinks/concert.html">Concerts</a></li>
-        <li><a href="assets/pagelinks/sports.html">Sports</a></li>
-        <li><a href="assets/pagelinks/theater.html">Theater</a></li>
+        <li class="menu-text">Local Muse</li>
       </ul>
     </div>
     <div class="top-bar-right">
@@ -57,6 +54,7 @@
       </ul>
     </div>
   </div> -->
+
 
 
   <!-- Main container with Highlight on Todays/Big events
@@ -100,8 +98,8 @@
     <table class="hover">
       <thead>
         <tr>
-          <th width="200">Band/Event Name</th>
-          <th>Dates and times</th>
+          <th width="200" id="band-name"></th>
+          <th id="">Dates and times</th>
           <th width="150">Venue</th>
           <th width="150">More information</th>
           <th width="150">Tickets</th>
@@ -109,11 +107,12 @@
       </thead>
       <tbody id="event-table">
         <tr>
-          <td id="band-name"></td>
+          <td>band Name</td>
           <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
           <td>Content Goes Here</td>
           <td>Content Goes Here</td>
         </tr>
+
 
     <!-- Button trigger modal -->
     <button type="button" id="more-events-button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -147,11 +146,9 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Love it!</button>
             <button type="button" class="btn btn-primary">Hate it!</button>
+
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
 
 </body>
