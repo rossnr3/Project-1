@@ -35,16 +35,12 @@ table {
     color: aliceblue;
 }
 
-#moreButton {
-    float: right;
-}
-
 /* this is all for the hero/search header ---------------------------------*/
 
 .hero-section-text {
     font-family: 'Righteous', cursive;
-    color: #fefefe;
-    text-shadow: 1px 1px 2px #0a0a0a;
+    color: black;
+    text-shadow: 0px 0px 20px #fefefe;
     margin: 20px;
 }
 
@@ -58,7 +54,7 @@ table {
     -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
-    border-bottom: solid 3px black;
+    border-bottom: solid 1px black;
   }
   
   .hero-search-filter-content {
