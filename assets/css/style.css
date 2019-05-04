@@ -78,35 +78,6 @@ thead {
             justify-content: center;
   }
   
-  .hero-search-filter-menu {
-    -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-  }
-  
-  @media screen and (max-width: 39.9375em) {
-    .hero-search-filter-menu li {
-      -webkit-flex-basis: 50%;
-          -ms-flex-preferred-size: 50%;
-              flex-basis: 50%;
-    }
-    .hero-search-filter-menu li a {
-      -webkit-justify-content: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-    }
-  }
-  
-  .hero-search-filter-menu a {
-    color: #fefefe;
-    font-weight: bold;
-  }
-  
-  .hero-search-filter-menu a .fa {
-    font-size: 1.125rem;
-    font-weight: normal;
-    text-decoration: none;
-  }
     
   .hero-search-filter-form {
     display: -webkit-flex;
@@ -133,11 +104,6 @@ thead {
     margin-bottom: 0;
   }
   
-  @media screen and (max-width: 39.9375em) {
-    .hero-search-filter-form {
-      width: 95%;
-    }
-  }
   
   .hero-search-filter-form-find,
   .hero-search-filter-form-near {
@@ -157,6 +123,178 @@ thead {
     left: 80%; 
     top: 40%; 
     margin: 0 0 0 110px;
+  }
+
+  #more-events-button {
+    background-color: #b96a9f;
+    border-color: white;
+  }
+
+  #search-artist {
+    background-color: #b96a9f;
+    border-color: white;
+  }
+
+  #buy-tickets {
+    background-color: #b96a9f;
+    border-color: white;
+  }
+
+  @media screen and (max-width: 980px) {
+    .buttonContainer {
+      width: 190px; 
+      position: fixed; 
+      left: 85%; 
+      top: 40%; 
+      margin: 0px;
+    }
+  
+  }
+
+  @media screen and (max-width: 850px) {
+    .buttonContainer {
+      width: 190px; 
+      position: fixed; 
+      left: 50%; 
+      top: 90%; 
+      margin: 0px;
+    }
+
+    #more-events-button {
+      position: fixed;
+      left: 30%;
+      top: 92%;
+    }
+
+    #search-artist {
+      position: fixed;
+      left: 42.4%;
+      top: 91.3%;
+    }
+  
+    #buy-tickets {
+      position: fixed;
+      left: 57.6%;
+      top: 92%;
+    }
+  }
+
+  @media screen and (max-width: 770px) {
+    .buttonContainer {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    #more-events-button {
+      position: fixed;
+      left: 10%;
+    }
+
+    #search-artist {
+      position: fixed;
+      left: 37%;
+    }
+  
+    #buy-tickets {
+      position: fixed;
+      left: 67%;
+    }
+
+  }
+
+  @media screen and (max-width: 389px) {
+    h1 {
+      font-size: 175%;
+    }
+
+    .buttonContainer {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    #more-events-button {
+      position: fixed;
+      float: left;
+      left: 25%;
+      top: 93%;
+      margin: 0px;
+    }
+
+    #more-events-button span {
+      display:none;
+    }
+
+    #search-artist {
+      position: fixed;
+      float: left;
+      left: 40%;
+      top: 92.4%;
+      margin: 0px;
+    }
+    #search-artist span {
+      display:none;
+    }
+  
+    #buy-tickets {
+      position: fixed;
+      float: left;
+      left: 55%;
+      top: 93%;
+      margin: 0px;
+    }
+    #buy-tickets span {
+      display:none;
+    }
+
+  }
+
+  @media screen and (max-width: 350px) {
+    h1 {
+      font-size: 175%;
+    }
+
+    .buttonContainer {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    #more-events-button {
+      position: fixed;
+      float: left;
+      left: 25%;
+      top: 93%;
+      margin: 0px;
+    }
+
+    #more-events-button span {
+      display:none;
+    }
+
+    #search-artist {
+      position: fixed;
+      float: left;
+      left: 40%;
+      top: 92.4%;
+      margin: 0px;
+    }
+    #search-artist span {
+      display:none;
+    }
+  
+    #buy-tickets {
+      position: fixed;
+      float: left;
+      left: 55%;
+      top: 93%;
+      margin: 0px;
+    }
+    #buy-tickets span {
+      display:none;
+    }
+
   }
 
   #search-artist {
