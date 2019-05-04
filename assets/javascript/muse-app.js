@@ -20,21 +20,6 @@ $(document).ready(function() {                  // Wait on document to load
     const BUY_TICKETS = "#buy-tickets";         // Buy tickets       
 
     //
-    // Firebase Variables
-    //
-    // const CHILD_ADDED = "child_added";          // Firebase events
-
-    // const config = {                            // Firebase configuration
-    //     apiKey: "AIzaSyAmDwJPp9snbM6xBXdXBbTNUVoJNAP3bsI",
-    //     authDomain: "local-muse.firebaseapp.com",
-    //     databaseURL: "https://local-muse.firebaseio.com",
-    //     projectId: "local-muse",
-    //     storageBucket: "local-muse.appspot.com",
-    //     messagingSenderId: "252827947960"
-    // };
-    // let databaseRef = null;                     // Ref to Firebase database
-
-    //
     // SeatGeek Variables
     //
     const DEFAULT_LOCATION = "Denver";          // SeatGeek location default
@@ -114,11 +99,12 @@ $(document).ready(function() {                  // Wait on document to load
     ***************************************************************************/
     // Process user location entry.
     // The location for a search may be entered as 'city' or as 'city, ST'.
-    // Invalid formats will be discarded, and the default location set.
+    // Invalid formats will be discarded, and the default location used.
     //      inputVal: string, value entered by user
-    //      return: string, 'city=...' or 'city=...state=..'
+    //      return: string, 'city=...' or 'city=...state=...'
     function processLocation(inputVal) {
-        let tempArray = inputVal.trim().split(",");     // Split location entered
+        let tempArray = inputVal.trim().split(",");     // Split location
+
         // Return default for blank input
         if (tempArray.length === 1 && tempArray[0].length === 0) {  
             return cityOption + DEFAULT_LOCATION;
@@ -127,6 +113,7 @@ $(document).ready(function() {                  // Wait on document to load
         for (let i = 0; i < tempArray.length; i++) {    // ...remove whitespace
             tempArray[i] = tempArray[i].trim();
         }
+
         let result = "";
         switch (tempArray.length) {
             case 1:                                     // Only city entered
@@ -142,11 +129,11 @@ $(document).ready(function() {                  // Wait on document to load
                 result = cityOption + DEFAULT_LOCATION;
             break;
         }
-        return result;                                  // return options
+        return result;                                  // location options
     }
     
     // Validate and format the average ticket price and the ticket listings
-    // The object is modified with the result.
+    // The object argument is modified with the result.
     function validatePrice(fmtObject) {
         if (!fmtObject.price || !fmtObject.tickets) {
             fmtObject.price = DEFAULT_PRICE;
@@ -172,39 +159,32 @@ $(document).ready(function() {                  // Wait on document to load
     // Render the Event objects as HTML table rows
     function renderEvents() {
         eventsIndex = -1;                       // Initialize index
-        $(SEARCH_ARTIST).prop("disabled", true);    // Disable buttons
+        $(SEARCH_ARTIST).prop("disabled", true); // Disable buttons
         $(BUY_TICKETS).prop("disabled", true);
 
         $(EVENT_TABLE).empty();                 // Clear table entries
         let eventTable = $(EVENT_TABLE);        // Ref to table
         events.forEach(function(event) {        // Loop thru event array
             let tr = $("<tr>");                 // Create tr element
-            //tr.attr("onclick", "rowClicked(this)"); // Add row click event handler
+
             let td = $("<td>");                 // Create td element
-
-            // // REMOVE LINK TO SEATGEEK TICKETS URL
-            // let eventLink = $("<a>");           // Create link
-            // eventLink.attr({"href": event.ticketURL,
-            //     "target": "_blank"});
-            // eventLink.text(event.title);        // link text content
-            // td.append(eventLink);               // Add to td
-
-            // Added CODE
             td.text(event.title);               // Add event title
-
             tr.append(td);                      // Add td to tr
+
             appendData(tr, event.eventDate);    // Add date and time
             appendData(tr, event.venue.theater  // Add theater & city, st
                 + ", " + event.venue.location);
+
             let eventArtists = "";              // Add artists array
             event.artists.forEach(function(artist) {
-                eventArtists += artist.name + "; ";
+                eventArtists += artist.name + " + ";
             });
-            if (eventArtists.length > 2) {      // remove last '; '
-                eventArtists = eventArtists.substr(0, eventArtists.length - 2);
+            if (eventArtists.length > 2) {      // remove last ' + '
+                eventArtists = eventArtists.substr(0, eventArtists.length - 3);
             }
             appendData(tr, eventArtists);       // add artist
-            appendData(tr,                      // add ticket listings & price
+
+            appendData(tr,                      // ticket listings & price
                 `${event.tickets} / ${event.price}`);
             eventTable.append(tr);              // Add row to table
         });
@@ -222,15 +202,15 @@ $(document).ready(function() {                  // Wait on document to load
                                                 // Yes - Create Venue object
                 let venueObj = new Venue(sgEvent.venue.id, 
                     sgEvent.venue.display_location, sgEvent.venue.name);
-                                                // Create array Artist objects
-                let artists = [];
+                                                
+                let artists = [];               // Create array Artist objects
                 sgEvent.performers.forEach(function(sgPerformer) {
                     let artistObj = new Artist(sgPerformer.id, 
                         sgPerformer.name, sgPerformer.image);
                     artists.push(artistObj);
                 });
-                                                // Format price / tickets listings
-                let fmtPriceTickets = {
+                                                
+                let fmtPriceTickets = {         // Format price / tickets listings
                     price: sgEvent.stats.average_price,
                     tickets: sgEvent.stats.listing_count
                 };
@@ -241,23 +221,8 @@ $(document).ready(function() {                  // Wait on document to load
                     venueObj, fmtPriceTickets.price, fmtPriceTickets.tickets,
                     sgEvent.url, artists);
                 events.push(concert);
-
-                // concert.print();                // Debugging
             }
         });
-    }
-
-    
-
-
-    /***************************************************************************
-     * Firebase Event Handlers
-    ***************************************************************************/
-    // Child Added Event Handler
-    // Called once for each child on initial load of data, and each time a new
-    // child is added.
-    function childAdded(snapshot) {
-
     }
 
     /***************************************************************************
@@ -266,6 +231,7 @@ $(document).ready(function() {                  // Wait on document to load
 
     // Table Row Clicked Event Handler
     $(document).on("click", "tr", function() {
+        // Update table row highlighting
         if (typeof currentRow === "undefined") {
             currentRow = $(this);
             previousBackground = currentRow.css("background-color");
@@ -274,8 +240,8 @@ $(document).ready(function() {                  // Wait on document to load
             currentRow = $(this);
         }
         currentRow.css("background-color", "darkgrey");
-        console.log("Table Row Clicked: Row index =", this.rowIndex);
-        let idx = this.rowIndex;
+
+        let idx = this.rowIndex;                        // Get table row clicked
         if (idx >= 1) {
             eventsIndex = idx - 1;              // Set index relative to 1st row
             $(SEARCH_ARTIST).prop("disabled", false);    // Enable buttons
@@ -284,10 +250,10 @@ $(document).ready(function() {                  // Wait on document to load
     });
 
     // Buy tickets
+    // Use event object ticketURL to link to SeatGeek
     function buyTickets() {
         let event = events[eventsIndex];
         window.open(event.ticketURL, '_blank');
-        // window.location.href = event.ticketURL;
     }
 
     // Event Button has been clicked, or ENTER used.
@@ -311,10 +277,6 @@ $(document).ready(function() {                  // Wait on document to load
                 eventPages = (totalPg % pgPerQry === 0) ? // Pages to display
                     totalPg / pgPerQry : Math.floor(totalPg / pgPerQry) + 1;
                 queryPage = sgEvents.meta.page;         // Save current page
-                console.log("totalPg:", totalPg);
-                console.log("pgPerQry:", pgPerQry);
-                console.log("eventPages:", eventPages);
-                console.log("queryPage:", queryPage);
 
                 getEvents(sgEvents.events);             // Extract event objects
                 renderEvents();                         // Display upcoming events
@@ -336,50 +298,28 @@ $(document).ready(function() {                  // Wait on document to load
     // Get Artist from selected row and query API for artist details 
     function searchArtist (event) {
         event.preventDefault();
-
-        //$("#artist-modal").modal();
-        
+        // Extract artist name
         let searchArtist = events[eventsIndex].artists[0].name
-        console.log(searchArtist);
-
-        let queryArtistURL = "https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist="  // query URL for last.fm
-                            + searchArtist 
-                            + "&api_key=568f44e6089a6a0cf9def6d576559c73&format=json";
-        
-
+        // Build query URL
+        let queryArtistURL = 
+            "https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist="
+            + searchArtist 
+            + "&api_key=568f44e6089a6a0cf9def6d576559c73&format=json";
+        // Query LastFM for artist
         $.ajax({
             url: queryArtistURL,
             method: "POST"
             }).then(function(response) {
-                console.log("your query string: " + queryArtistURL);  //console logs to verify calls and return
-                console.log(response);
-                console.log(response.artist.name);
-                console.log(response.artist.url);
-                console.log(response.artist.image[2]["#text"]);
-                console.log(response.artist.bio.summary);
-
                 if (response.error!=6) {
                 $('#band-name').css('textTransform', 'capitalize');
                 $("#band-name").text(response.artist.name);  
-                //$("#band-url").attr("href", response.artist.url);  // ***requires <p><a href=" " id="band-url">Band URL</a></p>
-                //$("#band-image").attr("src", response.artist.image[2]["#text"]);  // ***requires <img id="band-image"></img>
                 $("#band-summary").html(response.artist.bio.summary);  
                 } else {
                     console.log("The artist could not be found.");
                     $("#band-name").text("The artist could not be found.");
                 }
             });
-
-
-
-
-
-
         }
-
-
-
-
 
     // More Button has been clicked
     // Display the next page of events for the current location
@@ -387,7 +327,6 @@ $(document).ready(function() {                  // Wait on document to load
         queryPage++;                                    // Create next page option
         let pageNo = "&page=" + queryPage;
         let queryURL = eventsURL + queryLocation + concertOption + pageNo + apiID;
-        console.log("pageNo:", pageNo);
 
         // NOTE: This code is kept inline to avoid timing issues.
         let xhr = new XMLHttpRequest();
@@ -401,7 +340,6 @@ $(document).ready(function() {                  // Wait on document to load
                 getEvents(sgEvents.events);              // Extract event objects
                 renderEvents();                          // Display upcoming events
 
-                console.log("queryPage:", queryPage, ", eventPages:", eventPages);
                 if (queryPage >= eventPages) {          // Enable/disable MORE
                     $(MORE_BTN).prop("disabled", true);
                 } else {
@@ -418,30 +356,25 @@ $(document).ready(function() {                  // Wait on document to load
     }
 
     /***************************************************************************
-     * Application Entry Point - Begin Application Logic
+     * Firebase Interface
     ***************************************************************************/
    
-   var config = {
-    apiKey: "AIzaSyBj6ftpfNhikXm0QJLs8fmHKeerGLuRp3E",
-    authDomain: "project01-artistlove.firebaseapp.com",
-    databaseURL: "https://project01-artistlove.firebaseio.com",
-    projectId: "project01-artistlove",
-    storageBucket: "project01-artistlove.appspot.com",
-    messagingSenderId: "338853202244"
+    var config = {
+        apiKey: "AIzaSyBj6ftpfNhikXm0QJLs8fmHKeerGLuRp3E",
+        authDomain: "project01-artistlove.firebaseapp.com",
+        databaseURL: "https://project01-artistlove.firebaseio.com",
+        projectId: "project01-artistlove",
+        storageBucket: "project01-artistlove.appspot.com",
+        messagingSenderId: "338853202244"
     };
    
-   
-   
     firebase.initializeApp(config);             // Initialize firebase &
-    database = firebase.database();          // ...save ref to database
+    database = firebase.database();             // ...save ref to database
 
-    let loveCounter = 0;
+    let loveCounter = 0;                        // Initialize counters
     let hateCounter = 0;
 
-    
     database.ref().on("value", function(snapshot) {
-        //console.log(snapshot.val().loveCount);
-        //console.log(snapshot.val().hateCount);   
         // Update the clickCounter variable with data from the database.
         hateCounter = snapshot.val().hateCount.hateCount;
         loveCounter = snapshot.val().loveCount.loveCount;
@@ -466,17 +399,15 @@ $(document).ready(function() {                  // Wait on document to load
         });          
     });
     
-
-
     /***************************************************************************
-     * Application Entry Point - Begin Application Logic
+     * Set Event Handlers - Initialize Buttons
     ***************************************************************************/
-   //firebase.initializeApp(config);             // Initialize firebase &           --jimmyg: banged out since I firebase'd above
-   //databaseRef = firebase.database();          // ...save ref to database         --jimmyg: banged out since I firebase'd above
-
     $(EVENT_BTN).on("click", searchEvents);     // submit button event handler  
-    $(SEARCH_ARTIST).on("click", searchArtist);    // search artist button event handler
+    $(SEARCH_ARTIST).prop("disabled", true);    // Disable Search Artist button
+    $(SEARCH_ARTIST).on("click", searchArtist); // search artist button event handler
+    $(MORE_BTN).prop("disabled", true);         // Disable More button
     $(MORE_BTN).on("click", moreEvents);        // next page button event handler  
+    $(BUY_TICKETS).prop("disabled", true);      // Disable Buy Tickets button
     $(BUY_TICKETS).on("click", buyTickets);     // Buy tickets clicked 
 
 //pushing NEW

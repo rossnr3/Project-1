@@ -21,6 +21,10 @@ table {
   margin-top: 20px;
 }
 
+thead {
+  background-color: lightgrey;
+}
+
 .fa-search-location {
   margin: 10px;
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<!-----     Project-1 Assignment - Local Muse     ----->
+<!--     Project-1 Assignment - Local Muse     -->
 
 <head>
   <meta charset="UTF-8">
@@ -11,103 +11,79 @@
   <link rel="SHORTCUT ICON" href="./favicon.ico" />
   <link rel="icon" href="./favicon.ico" type="image/ico" />
 
-  <!-----     Reset css     ----->
+  <!--     Reset css     -->
   <link rel="stylesheet" href="assets/css/reset.css">
 
-  <!----- Link to Compressed Foundation CDN ------->
+  <!--     Link to Compressed Foundation CDN     -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.3/dist/css/foundation.min.css"
     integrity="sha256-xpOKVlYXzQ3P03j397+jWFZLMBXLES3IiryeClgU5og= sha384-gP4DhqyoT9b1vaikoHi9XQ8If7UNLO73JFOOlQV1RATrA7D0O7TjJZifac6NwPps sha512-AKwIib1E+xDeXe0tCgbc9uSvPwVYl6Awj7xl0FoaPFostZHOuDQ1abnDNCYtxL/HWEnVOMrFyf91TDgLPi9pNg=="
     crossorigin="anonymous">
-  <!-----     Links to Bootstrap JS, Popper.js and jQuery     ----->
+  <!--     Links to Bootstrap JS, Popper.js and jQuery     -->
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
   
-    <script
+  <script
     src="https://code.jquery.com/jquery-3.4.0.js"
     integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="
     crossorigin="anonymous"></script>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   
-  <!-----     Link to external stylesheet     ----->
+  <!--     Link to external stylesheet     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i|Righteous" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/style.css">
 
 
-  <!-----     Links to Ajax, Firebase, momentjs & application script     ----->
+  <!--     Links to Ajax, Firebase, momentjs & application script      -->
   <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-  <script src="assets/javascript/muse-app.js"></script>
   <script src="assets/javascript/location-api.js"></script>
+  <script src="assets/javascript/muse-app.js"></script>
 </head>
 
 <body>
-  <!--Navigation Bar-->
-  <!-- <div class="top-bar" id="example-menu">
-    <div class="top-bar-left">
-      <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text">Local Muse</li>
-      </ul>
-    </div>
-    <div class="top-bar-right">
-      <ul class="menu">
-        <li><input type="search" placeholder="Search an Event"></li>
-        <li><button type="button" class="button">Search</button></li>
-      </ul>
-    </div>
-  </div> -->
 
-
-
-  <!-- Main container with Highlight on Todays/Big events
-  <section class="hero">
-    <div class="hero-body">
-      <h1 class="display-4">Happening Now/Coming Soon!</h1>
-      <p class="lead"></p>
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </div>
-  </div> -->
-
-  <!-- Hero to replace Jumbotron, has searchbar -->
+  <!-- Hero page heading with location searchbar -->
   <header class="hero-search-filter">
-      <div class="hero-search-filter-content">
-        <div class="hero-section-text">
-          <h1>L O C A L &#183; M U S E</h1>
-        </div>
-        <form class="hero-search-filter-form" action="">
-          <label for="findlocate">City/Neighborhood</label>
-          <input id="location-input" class="hero-search-filter-form-near" type="text" />
-          <button id="event-button"><i class="fas fa-search-location fa-lg"></i></button>
-        </form>
+    <div class="hero-search-filter-content">
+      <div class="hero-section-text">
+        <h1>L O C A L &#183; M U S E</h1>
       </div>
-    </header>
+      <form class="hero-search-filter-form" action="">
+        <label for="findlocate">City/Neighborhood</label>
+        <input id="location-input" class="hero-search-filter-form-near" type="text" />
+        <button id="event-button"><i class="fas fa-search-location fa-lg"></i></button>
+      </form>
+    </div>
+  </header>
     
     
+  <!--     Bootstrap Container     -->
+  <div class="container">
 
-    <div class="container">
-
-      <!-- Top sellers -->
-      <table class="unstriped">
-        <thead>
-          <tr>
-            <th width="200" id="">Band</th>
-            <th id="">Dates and times</th>
-            <th width="150">Venue</th>
-            <th width="150">More information</th>
-            <th width="150">Tickets</th>
-          </tr>
-        </thead>
-        <tbody id="event-table"></tbody>
-      </table>
+    <!--     Events Table     -->
+    <table class="unstriped">
+      <thead>
+        <tr>
+          <th width="200" id="">Event Title</th>
+          <th id="">Date and time</th>
+          <th width="150">Venue</th>
+          <th width="150">Artists</th>
+          <th width="150">Ticket Listings / Avg Price</th>
+        </tr>
+      </thead>
+      <tbody id="event-table"></tbody>
+    </table>
   
+  <!--     Buttons     -->
   <div class="buttonContainer">
     <!-- Button trigger modal -->
     <button type="button" id="more-events-button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -125,32 +101,27 @@
     </button>
   </div>
     
-    <!-- Modal -->
-    <div class="modal fade" id="artist-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="band-name">Artist/Band Name</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <img id="band-image"></img>
-            <div id="band-summary"></div>
-          </div>
-          <div class="modal-footer">
-
-            <button type="button" id="love-button"  class="fas fa-grin-hearts" class="btn btn-secondary" data-dismiss="modal">Love it!</button>
-            <button type="button" id="hate-button"  class="far fa-angry" class="btn btn-secondary" data-dismiss="modal">Hate it!</button>
-
-
-          </div>
+  <!--     Modal Window     -->
+  <div class="modal fade" id="artist-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="band-name">Artist/Band Name</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img id="band-image"></img>
+          <div id="band-summary"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="love-button"  class="fas fa-grin-hearts" class="btn btn-secondary" data-dismiss="modal">Love it!</button>
+          <button type="button" id="hate-button"  class="far fa-angry" class="btn btn-secondary" data-dismiss="modal">Hate it!</button>
         </div>
       </div>
     </div>
-
+  </div>
 
 </body>
-<!--pushing NEW-->
 </html>
