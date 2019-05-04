@@ -203,7 +203,7 @@ thead {
 
   }
 
-  @media screen and (max-width: 389px) {
+  @media screen and (max-width: 414px) {
     h1 {
       font-size: 175%;
     }
@@ -293,6 +293,10 @@ thead {
     }
     #buy-tickets span {
       display:none;
+    }
+  
+    .hero-search-filter {
+      width: 105%;
     }
 
   }
