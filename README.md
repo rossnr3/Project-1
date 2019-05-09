@@ -65,3 +65,8 @@ The more ticket listings shown, the higher the probability of finding a
 ticket to purchase at a price closer to the average price. The fewer the
 ticket listings, the higher the probability of not being able to find a ticket,
 or finding only tickets at much higher prices.
+
+### Link to the deployed game
+
+[GitHub](https://rossnr3.github.io/Project-1/ "Local Muse")
+
